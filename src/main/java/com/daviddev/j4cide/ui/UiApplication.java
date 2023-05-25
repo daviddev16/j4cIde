@@ -127,7 +127,7 @@ public class UiApplication extends JFrame {
 	public UiApplication() throws IOException {
 		
 		setIconImage(FlatSVGUtils.svg2image(new File("./profile/icons/cpp_16px.svg").toURI().toURL(), 1.5f));
-		setTitle("Uni C eso (IDE para projetos em C)");
+		setTitle("j4CIde");
 		try {
 			//new Environment(new File("./profile"));
 		} catch (Exception e1) {
@@ -175,6 +175,8 @@ public class UiApplication extends JFrame {
 		
 		UiMenuBar menuBar = new UiMenuBar();
 		setJMenuBar(menuBar);
+		
+		/* SERA SUBSTITUIDO PELO UiMenuBar */
 		
 		/*JMenu mnFile = new JMenu("Arquivo");
 		mnFile.add(new SaveAction());

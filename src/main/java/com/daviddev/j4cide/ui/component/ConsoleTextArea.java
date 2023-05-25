@@ -38,7 +38,7 @@ public class ConsoleTextArea extends JTextPane {
 				+ " ╚═════╝ ╚═╝  ╚═══╝╚═╝     ╚═════╝    ╚══════╝╚══════╝ ╚═════╝      ╚═╝╚═╝ ╚═════╝ ";
 		hello += "\n\nCriado por https://github.com/daviddev16.";
 		
-		appendText(hello, Color.PINK);
+		//appendText(hello, Color.PINK);
 		blankLine();
 		appendDateText("⚠️ Carregando...", Color.yellow);
 		appendDateText("⚠️ ok!", Color.GREEN);

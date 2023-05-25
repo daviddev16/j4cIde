@@ -9,7 +9,6 @@ public class Main {
 	public static void main(String[] args) {
 		try {
 			UiApplication uiApplication = new UiApplication();
-			main(args);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
