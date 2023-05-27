@@ -18,6 +18,7 @@ public final class ActionsHandler {
 	public static final EmptyAction EMPTY_ACTION = new EmptyAction();
 	
 	public static void registerAllActions() {		
+		register(EMPTY_ACTION);
 		register(new SaveAction());
 		register(new ExportAction());
 		register(new CreateAction());

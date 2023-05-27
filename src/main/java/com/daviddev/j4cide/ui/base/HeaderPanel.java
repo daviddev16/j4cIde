@@ -17,7 +17,6 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import com.daviddev.j4cide.core.Environment;
 import com.daviddev.j4cide.external.FlatSVGIcon;
 import com.daviddev.j4cide.ui.UiApplication;
 import com.daviddev.j4cide.util.Borders;

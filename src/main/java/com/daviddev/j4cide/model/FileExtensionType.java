@@ -2,7 +2,7 @@ package com.daviddev.j4cide.model;
 
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 
-import com.daviddev.j4cide.core.IconMapper;
+import com.daviddev.j4cide.ui.IconMapper;
 
 public enum FileExtensionType {
 

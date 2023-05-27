@@ -1,5 +1,6 @@
 package com.daviddev.j4cide.ui.base;
 
+
 import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.io.File;
@@ -8,8 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.daviddev.j4cide.annotation.ExeceptionHandlerMaker;
 import com.daviddev.j4cide.api.CodeSceneChild;
-import com.daviddev.j4cide.core.Environment;
-import com.daviddev.j4cide.core.IconMapper;
+import com.daviddev.j4cide.ui.IconMapper;
 import com.daviddev.j4cide.ui.UiApplication;
 import com.daviddev.j4cide.ui.UiCodeScene;
 import com.daviddev.j4cide.ui.component.FileExplorerTree;
@@ -59,7 +59,12 @@ public class FileExplorerPane extends HeaderPanel implements CodeSceneChild {
 		
 	}
 	
-	public void reloadStructure() {
+	public void reload() {
+		/*
+		 * explorerTree.reload();
+		 * tabbedPane.reload();
+		 * */
+		
 		/*
 		 * reload tree
 		 * reload code editors

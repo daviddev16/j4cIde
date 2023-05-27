@@ -30,7 +30,7 @@ public class FileExplorerTreeEventHandler extends MouseAdapter {
 			FileTreeNode nodeInfo = (FileTreeNode)node.getUserObject();
 			if (!nodeInfo.isEditing()) {
 				System.out.println("oaoa");
-				getCodeScene().getEditorPane().loadNewTab(nodeInfo);
+				getCodeScene().getEditorPane().newTabOf(nodeInfo);
 			}
 			
 		}

@@ -6,9 +6,9 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import com.daviddev.j4cide.core.IconMapper;
 import com.daviddev.j4cide.model.FileExtensionType;
 import com.daviddev.j4cide.model.FileTreeNode;
+import com.daviddev.j4cide.ui.IconMapper;
 import com.daviddev.j4cide.util.Extensions;
 import com.daviddev.j4cide.util.IOUtil;
 import com.daviddev.j4cide.util.Validator;

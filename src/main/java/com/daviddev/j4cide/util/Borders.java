@@ -1,12 +1,12 @@
 package com.daviddev.j4cide.util;
 
+
 import java.awt.Color;
 
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
-import com.daviddev.j4cide.core.Environment;
 import com.daviddev.j4cide.ui.UiApplication;
 
 public final class Borders {

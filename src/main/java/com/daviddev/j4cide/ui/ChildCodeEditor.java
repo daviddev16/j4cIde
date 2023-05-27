@@ -14,7 +14,6 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
-import com.daviddev.j4cide.Util;
 import com.daviddev.j4cide.api.Styleable;
 import com.daviddev.j4cide.model.CideStyle;
 import com.daviddev.j4cide.model.FileTreeNode;
@@ -34,12 +33,12 @@ public class ChildCodeEditor extends Container implements Styleable, KeyListener
 	private RSyntaxTextArea textArea;
 	private RTextScrollPane scrollPane;
 	private CideStyle cideStyle;
-
+	
 	private final FileTreeNode treeNodeOwner;
-
+	
 	public ChildCodeEditor(FileTreeNode treeNodeOwner) throws IOException {
 		this.treeNodeOwner = treeNodeOwner;
-
+		
 		setLayout(new BorderLayout());
 		textArea = new RSyntaxTextArea(20, 60);
 		textArea.addKeyListener(new KeyAdapter() {
@@ -48,6 +47,7 @@ public class ChildCodeEditor extends Container implements Styleable, KeyListener
 		scrollPane = new RTextScrollPane(textArea, true);
 		scrollPane.getGutter().setBorder(null);
 		scrollPane.setBorder(null);
+		
 		initializeTextArea(textArea);
 		loadFromTreeNode();
 		add(scrollPane);

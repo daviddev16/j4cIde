@@ -1,7 +1,10 @@
 package com.daviddev.j4cide.ui.base;
 
+import java.io.File;
 import java.io.IOException;
+
 import java.net.URL;
+import java.util.Objects;
 
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
@@ -16,7 +19,6 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import com.daviddev.j4cide.annotation.ExeceptionHandlerMaker;
 import com.daviddev.j4cide.api.CodeSceneChild;
-import com.daviddev.j4cide.core.Environment;
 import com.daviddev.j4cide.model.FileExtensionType;
 import com.daviddev.j4cide.model.FileTreeNode;
 import com.daviddev.j4cide.ui.ChildCodeEditor;
@@ -30,32 +32,39 @@ import javax.swing.JTabbedPane;
 @ExeceptionHandlerMaker
 public class EditorPane extends JPanel implements HyperlinkListener, CodeSceneChild {
 
+	public static final FileExtensionType[] AVAILABLE_EXTENSIONS = 
+		{
+				FileExtensionType.C,
+				FileExtensionType.H,
+				FileExtensionType.OTHER
+		};
+
 	private static final long serialVersionUID = 3315165494291402183L;
 
 	private final UiCodeScene codeScene;
-	
+
 	private TabbedPaneCloseCallback tabbedCloseCallback;
 	private JTabbedPane tabbedPane;
-	
+
 	public EditorPane(UiCodeScene codeScene) {
 
 		this.codeScene = codeScene;
 		tabbedCloseCallback = new TabbedPaneCloseCallback();
-		
+
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		initializeTabbedPane(tabbedPane);
-		
+
 		GroupLayout gl_contentPane = new GroupLayout(this);
-		
+
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
-		);
+				);
 		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
-		);
-		
+				);
+
 		setLayout(gl_contentPane);		
 		setBorder(null);
 	}
@@ -67,29 +76,31 @@ public class EditorPane extends JPanel implements HyperlinkListener, CodeSceneCh
 		tabbedPane.setOpaque(true);
 		tabbedPane.setBorder(null);
 	}
-	
-	/*TODO:*/
-	public void loadNewTab(FileTreeNode node) {
+
+	public void newTabOf(FileTreeNode treeNode) {
+		Objects.requireNonNull(treeNode, "treeNode");
 		
-		if (node.getExtensionType() != FileExtensionType.C && node.getExtensionType() != FileExtensionType.H)
+		if (!isLoadable(treeNode.getExtensionType()))
 			return;
-			
-		ChildCodeEditor codePane_1 = null;
+		
 		try {
-			codePane_1 = new ChildCodeEditor(node);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
+			int tabIndex = getTabbedPane().getTabCount();
+			ChildCodeEditor codeEditor = new ChildCodeEditor(treeNode);
+			ImageIcon imageIcon = (ImageIcon) treeNode.getIcon();
+			getTabbedPane().insertTab(treeNode.getName(), imageIcon, codeEditor, null, tabIndex);
+			codeEditor.applyStyle(UiApplication.DEFAULT_STYLE);
+			treeNode.open();
+			getTabbedPane().setSelectedIndex(tabIndex);
+			
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		ImageIcon ic = (ImageIcon) node.getIcon();
-		node.open();
-		tabbedPane.addTab(node.getName(), ic, codePane_1, null);
-		codePane_1.applyStyle(UiApplication.DEFAULT_STYLE);
 	}
 
 	@Override
 	public void hyperlinkUpdate(HyperlinkEvent e) {
-	    System.out.println("Hyperlink event: " + e.getEventType());
+		System.out.println("Hyperlink event: " + e.getEventType());
 		if (e.getEventType()==HyperlinkEvent.EventType.ACTIVATED) {
 			URL url = e.getURL();
 			if (url==null) {
@@ -97,11 +108,20 @@ public class EditorPane extends JPanel implements HyperlinkListener, CodeSceneCh
 			}
 			else {
 				JOptionPane.showMessageDialog(this,
-									"URL clicked:\n" + url);
+						"URL clicked:\n" + url);
 			}
 		}
 	}
-	
+
+	public boolean isLoadable(FileExtensionType extensionType) {
+		for (FileExtensionType availableType : AVAILABLE_EXTENSIONS) {
+			if (availableType.equals(extensionType)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public boolean focusOnTextArea(RSyntaxTextArea textArea) {
 		return textArea.requestFocusInWindow();
 	}
@@ -109,7 +129,7 @@ public class EditorPane extends JPanel implements HyperlinkListener, CodeSceneCh
 	public JTabbedPane getTabbedPane() {
 		return tabbedPane;
 	}
-	
+
 	@Override
 	public UiCodeScene getCodeScene() {
 		return codeScene;

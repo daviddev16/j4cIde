@@ -1,20 +1,23 @@
 package com.daviddev.j4cide.ui;
 
+
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.function.Consumer;
 
+import javax.swing.Action;
 import javax.swing.JToolBar;
 
-import com.daviddev.j4cide.core.Environment;
+import com.daviddev.j4cide.api.GenericAction;
 import com.daviddev.j4cide.external.FlatSVGIcon;
 import com.daviddev.j4cide.ui.action.CreateAction;
+import com.daviddev.j4cide.ui.action.EmptyAction;
 import com.daviddev.j4cide.ui.action.ExportAction;
 import com.daviddev.j4cide.ui.action.SaveAction;
 import com.daviddev.j4cide.ui.component.UiButton;
 import com.daviddev.j4cide.ui.handler.ActionsHandler;
-import com.daviddev.j4cide.util.ColorUtil;
 
 public class UiToolBar extends JToolBar {
 
@@ -26,47 +29,21 @@ public class UiToolBar extends JToolBar {
 		setOpaque(true);
 		//setBackground(ColorUtil.darker(Environment.BACKGROUND, 0.01f));
 		
-		
-		UiButton lblNewLabel = new UiButton();
-		lblNewLabel.setText("Projeto em C / GCC (MinGW)");
-		lblNewLabel.setContentAreaFilled(false);
-		lblNewLabel.setIcon(new FlatSVGIcon(new File("./profile/icons/linked_16px.svg")));
-		add(lblNewLabel);
+		createButton("Projeto em C / GCC (MinGW)", IconMapper.LINKED_ICON, 
+				(compilerBtn) -> compilerBtn.setContentAreaFilled(false));
 		
 		addSeparator(new Dimension(10, 1));
 		
-		UiButton btnNewButton_1_1 = new UiButton();
-		btnNewButton_1_1.setAction(ActionsHandler.actionOf(SaveAction.class));
-		btnNewButton_1_1.setIcon(new FlatSVGIcon(new File("./profile/icons/save_16px.svg")));
-		add(btnNewButton_1_1);
-		
-		
-		UiButton btnNewButton_1_3 = new UiButton();
-		btnNewButton_1_3.setAction(ActionsHandler.actionOf(ExportAction.class));
-		btnNewButton_1_3.setIcon(new FlatSVGIcon(new File("./profile/icons/export_16px.svg")));
-		add(btnNewButton_1_3);
-		
-		UiButton btnNewButton_1_6 = new UiButton();
-		btnNewButton_1_6.setAction(ActionsHandler.actionOf(CreateAction.class));
-		btnNewButton_1_6.setIcon(new FlatSVGIcon(new File("./profile/icons/cpp2_16px.svg")));
-		add(btnNewButton_1_6);
-		
+		createButton(IconMapper.SAVE_ICON, SaveAction.class);
+		createButton(IconMapper.EXPORT_ICON, ExportAction.class);
+		createButton(IconMapper.CPP2_ICON, CreateAction.class);
+
 		addSeparator(new Dimension(10, 1));
 		
-		UiButton btnNewButton = new UiButton();
-		btnNewButton.setText("Rodar");
-		btnNewButton.setIcon(new FlatSVGIcon(new File("./profile/icons/execute_16px.svg")));
-		add(btnNewButton);
+		createButton(IconMapper.EXECUTE_ICON, EmptyAction.class); /* Rodar */
+		createButton(IconMapper.STOP_ICON, EmptyAction.class); /* Parar */
+		createButton(IconMapper.KILL_ICON, EmptyAction.class); /* Matar Processos */
 		
-		UiButton btnNewButton_1 = new UiButton();
-		btnNewButton_1.setIcon(new FlatSVGIcon(new File("./profile/icons/stop_16px.svg")));
-		btnNewButton_1.setText("Parar");
-		add(btnNewButton_1);
-		
-		UiButton btnNewButton_2 = new UiButton();
-		btnNewButton_2.setIcon(new FlatSVGIcon(new File("./profile/icons/kill_16px.svg")));
-		btnNewButton_2.setText("Matar Contextos");
-		add(btnNewButton_2);
 		
 		addSeparator(new Dimension(10, 1));
 		
@@ -98,6 +75,30 @@ public class UiToolBar extends JToolBar {
 		btnNewButton_6_1_1.setIcon(new FlatSVGIcon(new File("./profile/icons/explorer_16px.svg")));
 		btnNewButton_6_1_1.setText("Exibir Explorador de Arquivos");
 		add(btnNewButton_6_1_1);
+	}
+	
+	private void createButton(String name, String iconId, Consumer<UiButton> configConsumer) {
+		UiButton uiButton = new UiButton();
+		if (configConsumer != null)
+			configConsumer.accept(uiButton);
+		uiButton.setText(name);
+		uiButton.setIcon(IconMapper.icon(iconId));
+		add(uiButton);
+	}
+	
+	private void createButton(String iconId, Consumer<UiButton> configConsumer) {
+		UiButton uiButton = new UiButton();
+		if (configConsumer != null)
+			configConsumer.accept(uiButton);
+		uiButton.setIcon(IconMapper.icon(iconId));
+		add(uiButton);
+	}
+	
+	private void createButton(String iconId, Class<? extends GenericAction> clazz) {
+		UiButton uiButton = new UiButton();
+		uiButton.setAction(ActionsHandler.actionOf(clazz));
+		uiButton.setIcon(IconMapper.icon(iconId));
+		add(uiButton);
 	}
 	
 }

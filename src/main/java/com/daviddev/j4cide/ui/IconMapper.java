@@ -1,4 +1,4 @@
-package com.daviddev.j4cide.core;
+package com.daviddev.j4cide.ui;
 
 import java.io.File;
 import java.util.HashMap;
@@ -24,6 +24,16 @@ public final class IconMapper {
 	public static final String CFILE_ICON = "c";
 	public static final String HFILE_ICON = "h";
 	public static final String ENV_ICON = "env";
+	public static final String LINKED_ICON = "lkd1";
+	public static final String WARNING_ICON = "warn1";
+	public static final String SAVE_ICON = "sv";
+	public static final String EXPORT_ICON = "exprt";
+	public static final String STOP_ICON = "stp";
+	public static final String EXECUTE_ICON = "exc";
+	public static final String KILL_ICON = "kll";
+	public static final String CONFIG_ICON = "cfg";
+	public static final String LOG_ICON = "lg";
+	public static final String CPP2_ICON = "cpp2";
 	
 	public static void registerAllIcons() {
 		registerIcon(UNKNOWN_ICON, iconOf("unknown_16px.svg"));
@@ -33,6 +43,16 @@ public final class IconMapper {
 		registerIcon(CFILE_ICON, iconOf("c2_16px.svg"));
 		registerIcon(HFILE_ICON, iconOf("h_16px.svg"));
 		registerIcon(ENV_ICON, iconOf("env_16px.svg"));
+		registerIcon(WARNING_ICON, iconOf("warn_16px.svg"));
+		registerIcon(LINKED_ICON, iconOf("linked_16px.svg"));
+		registerIcon(SAVE_ICON, iconOf("save_16px.svg"));
+		registerIcon(EXPORT_ICON, iconOf("export_16px.svg"));
+		registerIcon(STOP_ICON, iconOf("stop_16px.svg"));
+		registerIcon(EXECUTE_ICON, iconOf("execute_16px.svg"));
+		registerIcon(KILL_ICON, iconOf("kill_16px.svg"));
+		registerIcon(CONFIG_ICON, iconOf("config_16px.svg"));
+		registerIcon(LOG_ICON, iconOf("log_16px.svg"));
+		registerIcon(CPP2_ICON, iconOf("cpp2_16px.svg"));
 	}
 
 	public static ImageIcon iconOf(@NotNull String iconName) {

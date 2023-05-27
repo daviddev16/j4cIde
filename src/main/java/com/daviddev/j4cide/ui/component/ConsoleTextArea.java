@@ -15,7 +15,6 @@ import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-import com.daviddev.j4cide.core.Environment;
 import com.daviddev.j4cide.model.CideStyle;
 import com.daviddev.j4cide.ui.UiApplication;
 
@@ -30,15 +29,6 @@ public class ConsoleTextArea extends JTextPane {
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setBackground(UiApplication.bg());
 		
-		String hello = "██╗   ██╗███╗   ██╗██╗     ██████╗    ███████╗███████╗ ██████╗      ██╗    ██████╗ \r\n"
-				+ "██║   ██║████╗  ██║██║    ██╔════╝    ██╔════╝██╔════╝██╔═══██╗    ███║   ██╔═████╗\r\n"
-				+ "██║   ██║██╔██╗ ██║██║    ██║         █████╗  ███████╗██║   ██║    ╚██║   ██║██╔██║\r\n"
-				+ "██║   ██║██║╚██╗██║██║    ██║         ██╔══╝  ╚════██║██║   ██║     ██║   ████╔╝██║\r\n"
-				+ "╚██████╔╝██║ ╚████║██║    ╚██████╗    ███████╗███████║╚██████╔╝     ██║██╗╚██████╔╝\r\n"
-				+ " ╚═════╝ ╚═╝  ╚═══╝╚═╝     ╚═════╝    ╚══════╝╚══════╝ ╚═════╝      ╚═╝╚═╝ ╚═════╝ ";
-		hello += "\n\nCriado por https://github.com/daviddev16.";
-		
-		//appendText(hello, Color.PINK);
 		blankLine();
 		appendDateText("⚠️ Carregando...", Color.yellow);
 		appendDateText("⚠️ ok!", Color.GREEN);
