@@ -10,15 +10,16 @@ import com.daviddev.j4cide.core.ApplicationContextManager;
 
 public class EmptyAction extends GenericAction {
 
-	private static final long serialVersionUID = 468292077593913369L;
+	private static final long serialVersionUID = 1L;
 	
 	public EmptyAction() { super(""); }
 	
 	@Override
+	public void perform(ActionEvent event, ApplicationContextManager contextManager) {}
+
+	@Override
 	public KeyStroke keys() {
 		return KeyStroke.getKeyStroke(KeyEvent.CHAR_UNDEFINED);
 	}
-
-	@Override
-	public void perform(ActionEvent event, ApplicationContextManager contextManager) {}
 }
+

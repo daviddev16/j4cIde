@@ -30,8 +30,6 @@ public class ConsoleTextArea extends JTextPane {
 		setBackground(UiApplication.bg());
 		
 		blankLine();
-		appendDateText("⚠️ Carregando...", Color.yellow);
-		appendDateText("⚠️ ok!", Color.GREEN);
 	}
 	
 	public void appendDateText(String text, Color color) {
@@ -59,6 +57,7 @@ public class ConsoleTextArea extends JTextPane {
 
         try {
             document.insertString(document.getLength(), text+"\n", style);
+            setCaretPosition(getDocument().getLength());
         } catch (BadLocationException e) {
             e.printStackTrace();
         }

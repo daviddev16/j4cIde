@@ -7,15 +7,19 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.function.Consumer;
 
-import javax.swing.Action;
 import javax.swing.JToolBar;
 
 import com.daviddev.j4cide.api.GenericAction;
 import com.daviddev.j4cide.external.FlatSVGIcon;
+import com.daviddev.j4cide.ui.action.OpenConfigAction;
 import com.daviddev.j4cide.ui.action.CreateAction;
-import com.daviddev.j4cide.ui.action.EmptyAction;
+import com.daviddev.j4cide.ui.action.ExecuteAction;
 import com.daviddev.j4cide.ui.action.ExportAction;
+import com.daviddev.j4cide.ui.action.KillAction;
+import com.daviddev.j4cide.ui.action.OpenConsoleAction;
+import com.daviddev.j4cide.ui.action.OpenExplorerAction;
 import com.daviddev.j4cide.ui.action.SaveAction;
+import com.daviddev.j4cide.ui.action.StopAction;
 import com.daviddev.j4cide.ui.component.UiButton;
 import com.daviddev.j4cide.ui.handler.ActionsHandler;
 
@@ -40,36 +44,21 @@ public class UiToolBar extends JToolBar {
 
 		addSeparator(new Dimension(10, 1));
 		
-		createButton(IconMapper.EXECUTE_ICON, EmptyAction.class); /* Rodar */
-		createButton(IconMapper.STOP_ICON, EmptyAction.class); /* Parar */
-		createButton(IconMapper.KILL_ICON, EmptyAction.class); /* Matar Processos */
-		
+		createButton(IconMapper.EXECUTE_ICON, ExecuteAction.class);
+		createButton(IconMapper.STOP_ICON, StopAction.class);
+		createButton(IconMapper.KILL_ICON, KillAction.class);
 		
 		addSeparator(new Dimension(10, 1));
 		
-		UiButton btnNewButton_6 = new UiButton();
-		btnNewButton_6.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//consolePane.setVisible(true);
-				//splitPane_1.setDividerLocation(0.3d);
-				//splitPane_1.revalidate();
-			}
-		});
-		btnNewButton_6.setIcon(new FlatSVGIcon(new File("./profile/icons/config_16px.svg")));
-		btnNewButton_6.setText("Configurações");
-		add(btnNewButton_6);
-		
-		UiButton btnNewButton_6_1 = new UiButton();
-		btnNewButton_6.setIcon(new FlatSVGIcon(new File("./profile/icons/log_16px.svg")));
-		btnNewButton_6.setText("Exibir Logs");
-		add(btnNewButton_6_1);
+		createButton(IconMapper.CONFIG_ICON, OpenConfigAction.class);
+		createButton(IconMapper.LOG_ICON, OpenConsoleAction.class);
+		createButton(IconMapper.ENV_ICON, OpenExplorerAction.class);
+
 		
 		UiButton btnNewButton_6_1_1 = new UiButton();
 		btnNewButton_6_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//fileExplorerPane.setVisible(true);
-				//splitPane.setDividerLocation(0.2d);
-				//splitPane.revalidate();
+				
 			}
 		});
 		btnNewButton_6_1_1.setIcon(new FlatSVGIcon(new File("./profile/icons/explorer_16px.svg")));
@@ -82,14 +71,6 @@ public class UiToolBar extends JToolBar {
 		if (configConsumer != null)
 			configConsumer.accept(uiButton);
 		uiButton.setText(name);
-		uiButton.setIcon(IconMapper.icon(iconId));
-		add(uiButton);
-	}
-	
-	private void createButton(String iconId, Consumer<UiButton> configConsumer) {
-		UiButton uiButton = new UiButton();
-		if (configConsumer != null)
-			configConsumer.accept(uiButton);
 		uiButton.setIcon(IconMapper.icon(iconId));
 		add(uiButton);
 	}

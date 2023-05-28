@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import javax.swing.border.EmptyBorder;
 
 import com.daviddev.j4cide.api.CodeSceneChild;
+import com.daviddev.j4cide.api.Interactable;
 import com.daviddev.j4cide.ui.UiApplication;
 import com.daviddev.j4cide.ui.UiCodeScene;
 import com.daviddev.j4cide.ui.component.ConsoleTextArea;
@@ -11,11 +12,13 @@ import com.daviddev.j4cide.ui.component.ConsoleTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
-public class ConsolePane extends HeaderPanel implements CodeSceneChild {
+public class ConsolePane extends HeaderPanel implements CodeSceneChild, Interactable {
 
 	private static final long serialVersionUID = -3272703785406586777L;
 
 	private final UiCodeScene codeScene;
+	
+	public ConsoleTextArea area = new ConsoleTextArea(UiApplication.DEFAULT_STYLE);
 	
 	public ConsolePane(UiCodeScene codeScene) {
 		super(100, 20);
@@ -26,7 +29,7 @@ public class ConsolePane extends HeaderPanel implements CodeSceneChild {
 		getContentPanel().setOpaque(false);
 		getContentPanel().setLayout(new BorderLayout(0, 0));
 
-		ConsoleTextArea area = new ConsoleTextArea(UiApplication.DEFAULT_STYLE);
+		
 		area.setEditable(false);
 		JScrollPane scrollPane = new JScrollPane(area);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -40,6 +43,16 @@ public class ConsolePane extends HeaderPanel implements CodeSceneChild {
 	@Override
 	public UiCodeScene getCodeScene() {
 		return codeScene;
+	}
+
+	@Override
+	public void close() {
+		setVisible(false);
+	}
+
+	@Override
+	public void open() {
+		setVisible(true);
 	}
 
 }

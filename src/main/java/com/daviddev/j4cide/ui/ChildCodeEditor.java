@@ -2,10 +2,10 @@ package com.daviddev.j4cide.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.event.KeyAdapter;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import javax.swing.JPanel;
 import javax.swing.ToolTipManager;
 
 import org.fife.rsta.ac.LanguageSupport;
@@ -20,25 +20,22 @@ import com.daviddev.j4cide.model.FileTreeNode;
 import com.daviddev.j4cide.ui.base.EditorPane;
 import com.daviddev.j4cide.util.ColorUtil;
 import com.daviddev.j4cide.util.IOUtil;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
-public class ChildCodeEditor extends Container implements Styleable, KeyListener {
+public class ChildCodeEditor extends Container implements Styleable {
 
-	private static final long serialVersionUID = 9149549948729214108L;
+	private static final long serialVersionUID = 1L;
 
 	public static final LanguageSupportFactory LSF = LanguageSupportFactory.get();
 
 	private RSyntaxTextArea textArea;
 	private RTextScrollPane scrollPane;
 	private CideStyle cideStyle;
-	
+
 	private final FileTreeNode treeNodeOwner;
-	
+
 	public ChildCodeEditor(FileTreeNode treeNodeOwner) throws IOException {
 		this.treeNodeOwner = treeNodeOwner;
-		
+
 		setLayout(new BorderLayout());
 		textArea = new RSyntaxTextArea(20, 60);
 		textArea.addKeyListener(new KeyAdapter() {
@@ -47,7 +44,7 @@ public class ChildCodeEditor extends Container implements Styleable, KeyListener
 		scrollPane = new RTextScrollPane(textArea, true);
 		scrollPane.getGutter().setBorder(null);
 		scrollPane.setBorder(null);
-		
+
 		initializeTextArea(textArea);
 		loadFromTreeNode();
 		add(scrollPane);
@@ -61,24 +58,18 @@ public class ChildCodeEditor extends Container implements Styleable, KeyListener
 		textArea.setTabsEmulated(true);
 		textArea.setTabSize(4);
 		textArea.setCodeFoldingEnabled(true);
-		
-		JPanel editorPanel = (JPanel) getParent();
-		if (editorPanel instanceof EditorPane)
-			textArea.addHyperlinkListener((EditorPane)editorPanel);
-
 		ToolTipManager.sharedInstance().registerComponent(textArea);
-		
 	}
 
 	private void loadFromTreeNode() throws IOException {
 		String syntaxLanguage = getTreeNodeOwner().getExtensionType().getLanguageStyle();
 		String filePath = getTreeNodeOwner().getFilePath();
 		String contentOfFile = IOUtil.read(filePath);
-		
+
 		final LanguageSupport support = LSF.getSupportFor(syntaxLanguage);
 		support.install(textArea);
 		LSF.register(textArea);
-		
+
 		textArea.setSyntaxEditingStyle(syntaxLanguage);
 		textArea.setText(contentOfFile);
 	}
@@ -109,6 +100,14 @@ public class ChildCodeEditor extends Container implements Styleable, KeyListener
 
 	}
 
+	public void saveToFile() {
+		try {
+			IOUtil.write(treeNodeOwner.getFilePath(), textArea.getText());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	public void applyStyle(CideStyle cideStyle) {
 		this.cideStyle = cideStyle;
@@ -123,26 +122,6 @@ public class ChildCodeEditor extends Container implements Styleable, KeyListener
 	@Override
 	public CideStyle getCideStyle() {
 		return cideStyle;
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_S && e.isControlDown()) {
-			System.out.println("aoao");
-			//IOUtil.write(currentFile.getAbsolutePath(), textArea.getText());
-		}
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 }

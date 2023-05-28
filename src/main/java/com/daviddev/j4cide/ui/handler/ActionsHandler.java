@@ -7,7 +7,12 @@ import java.util.Map;
 import com.daviddev.j4cide.api.GenericAction;
 import com.daviddev.j4cide.ui.action.CreateAction;
 import com.daviddev.j4cide.ui.action.EmptyAction;
+import com.daviddev.j4cide.ui.action.ExecuteAction;
 import com.daviddev.j4cide.ui.action.ExportAction;
+import com.daviddev.j4cide.ui.action.KillAction;
+import com.daviddev.j4cide.ui.action.OpenConfigAction;
+import com.daviddev.j4cide.ui.action.OpenConsoleAction;
+import com.daviddev.j4cide.ui.action.OpenExplorerAction;
 import com.daviddev.j4cide.ui.action.SaveAction;
 import com.daviddev.j4cide.util.Validator;
 
@@ -22,6 +27,13 @@ public final class ActionsHandler {
 		register(new SaveAction());
 		register(new ExportAction());
 		register(new CreateAction());
+		register(new ExecuteAction());
+		register(new KillAction());
+		register(new OpenConfigAction());
+		register(new ExportAction());
+		register(new CreateAction());
+		register(new OpenConsoleAction());
+		register(new OpenExplorerAction());
 	}
 	
 	public static void register(GenericAction action) {

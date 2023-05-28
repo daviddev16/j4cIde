@@ -11,6 +11,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
+import javax.swing.WindowConstants;
 import javax.swing.plaf.ColorUIResource;
 
 import com.daviddev.j4cide.core.ApplicationContextManager;
@@ -22,11 +23,11 @@ public class UiApplication extends JFrame {
 
 	/*TODO:*/
 	public static CideStyle DEFAULT_STYLE;
-	
+
 	/*TODO:*/
 	static {
 		try {
-			DEFAULT_STYLE = new CideStyle("defaultStyle", new File(".\\profile\\themes\\monokai.xml"), 
+			DEFAULT_STYLE = new CideStyle("defaultStyle", new File(".\\profile\\themes\\monokai.xml"),
 					Font.createFont(Font.TRUETYPE_FONT, new File(".//profile//fonts//FiraMono-Regular.ttf")), "flatDarculaLaf");
 		} catch (FontFormatException | IOException e) {
 			e.printStackTrace();
@@ -34,13 +35,13 @@ public class UiApplication extends JFrame {
 	}
 
 	private static UiApplication instance;
-	
+
 	private static final long serialVersionUID = 6077917334900022692L;
 	public static final String GLOBAL_BG_KEY = "globalBackground";
 
 	private final UiToolBar toolBar = new UiToolBar();
 	private final UiMenuBar menuBar = new UiMenuBar();
-	private final UiCodeScene codeScene = new UiCodeScene();
+	private final UiCodeScene codeScene = new UiCodeScene(".//profile//workspace//Soma_001");
 
 	private UiApplication() throws IOException {
 
@@ -49,7 +50,7 @@ public class UiApplication extends JFrame {
 		setIconImage(FlatSVGUtils.svg2image(new File("./profile/icons/cpp_16px.svg").toURI().toURL(), 1.5f));
 		ApplicationContextManager.getContextManager().setUiApplication(this);
 		ApplicationContextManager.getContextManager().setCurrentCodeScene(codeScene);
-		
+
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
@@ -67,26 +68,26 @@ public class UiApplication extends JFrame {
 					.addComponent(codeScene, GroupLayout.DEFAULT_SIZE, 926, Short.MAX_VALUE)
 					.addGap(6))
 		);
-		
+
 		getContentPane().setLayout(groupLayout);
 		setJMenuBar(menuBar);
-		
+
 		instance = this;
 	}
-	
+
 	public static Color bg() {
 		ColorUIResource colorResource = ((ColorUIResource)UIManager.get(GLOBAL_BG_KEY));
-		return ColorUtil.darker((Color)colorResource, 0.1f);
+		return ColorUtil.darker(colorResource, 0.1f);
 	}
-	
+
 	public static void createApplicationWindow() throws IOException {
 		if (instance == null) {
 			UiApplication applicationWindow = new UiApplication();
-			applicationWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			applicationWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 			applicationWindow.setVisible(true);
 		}
 	}
-	
+
 	public static UiApplication getInstance() {
 		return instance;
 	}

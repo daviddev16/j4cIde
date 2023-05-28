@@ -21,8 +21,11 @@ public class UiCodeScene extends JPanel {
 	
 	private final JSplitPane consoleDividerPane;
 	private final JSplitPane editorDividerPane;
+	
+	private final String projectFolder;
 
-	public UiCodeScene() {
+	public UiCodeScene(String projectFolder) {
+		this.projectFolder = projectFolder;
 		setLayout(new BorderLayout(0, 0));
 		
 		editorRootPane = new EditorPane(this);
@@ -54,6 +57,14 @@ public class UiCodeScene extends JPanel {
 		editorDividerPane.setContinuousLayout(true);
 		consoleDividerPane.setDividerLocation(0.7);
 	}
+	
+	public JSplitPane getConsoleDividerPane() {
+		return consoleDividerPane;
+	}
+
+	public JSplitPane getEditorDividerPane() {
+		return editorDividerPane;
+	}
 
 	public FileExplorerPane getFileExplorerPane() {
 		return fileExplorerPane;
@@ -66,7 +77,9 @@ public class UiCodeScene extends JPanel {
 	public ConsolePane getConsolePane() {
 		return consolePane;
 	}
-	
-	
 
+	public String getProjectFolder() {
+		return projectFolder;
+	}
+	
 }

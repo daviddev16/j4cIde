@@ -1,19 +1,14 @@
 package com.daviddev.j4cide.ui.base;
 
-import java.io.File;
-import java.io.IOException;
 
-import java.net.URL;
 import java.util.Objects;
 
 import javax.swing.GroupLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.UIManager;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
@@ -27,12 +22,10 @@ import com.daviddev.j4cide.ui.UiCodeScene;
 import com.daviddev.j4cide.ui.callback.TabbedPaneCloseCallback;
 import com.daviddev.j4cide.util.ColorUtil;
 
-import javax.swing.JTabbedPane;
-
 @ExeceptionHandlerMaker
-public class EditorPane extends JPanel implements HyperlinkListener, CodeSceneChild {
+public class EditorPane extends JPanel implements CodeSceneChild {
 
-	public static final FileExtensionType[] AVAILABLE_EXTENSIONS = 
+	public static final FileExtensionType[] AVAILABLE_EXTENSIONS =
 		{
 				FileExtensionType.C,
 				FileExtensionType.H,
@@ -51,7 +44,7 @@ public class EditorPane extends JPanel implements HyperlinkListener, CodeSceneCh
 		this.codeScene = codeScene;
 		tabbedCloseCallback = new TabbedPaneCloseCallback();
 
-		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		initializeTabbedPane(tabbedPane);
 
 		GroupLayout gl_contentPane = new GroupLayout(this);
@@ -65,7 +58,7 @@ public class EditorPane extends JPanel implements HyperlinkListener, CodeSceneCh
 				.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
 				);
 
-		setLayout(gl_contentPane);		
+		setLayout(gl_contentPane);
 		setBorder(null);
 	}
 
@@ -79,12 +72,11 @@ public class EditorPane extends JPanel implements HyperlinkListener, CodeSceneCh
 
 	public void newTabOf(FileTreeNode treeNode) {
 		Objects.requireNonNull(treeNode, "treeNode");
-		
+
 		if (!isLoadable(treeNode.getExtensionType()))
 			return;
-		
-		try {
 
+		try {
 			int tabIndex = getTabbedPane().getTabCount();
 			ChildCodeEditor codeEditor = new ChildCodeEditor(treeNode);
 			ImageIcon imageIcon = (ImageIcon) treeNode.getIcon();
@@ -92,24 +84,9 @@ public class EditorPane extends JPanel implements HyperlinkListener, CodeSceneCh
 			codeEditor.applyStyle(UiApplication.DEFAULT_STYLE);
 			treeNode.open();
 			getTabbedPane().setSelectedIndex(tabIndex);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public void hyperlinkUpdate(HyperlinkEvent e) {
-		System.out.println("Hyperlink event: " + e.getEventType());
-		if (e.getEventType()==HyperlinkEvent.EventType.ACTIVATED) {
-			URL url = e.getURL();
-			if (url==null) {
-				UIManager.getLookAndFeel().provideErrorFeedback(null);
-			}
-			else {
-				JOptionPane.showMessageDialog(this,
-						"URL clicked:\n" + url);
-			}
 		}
 	}
 

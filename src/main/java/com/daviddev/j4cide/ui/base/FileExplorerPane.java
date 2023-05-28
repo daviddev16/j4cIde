@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.daviddev.j4cide.annotation.ExeceptionHandlerMaker;
 import com.daviddev.j4cide.api.CodeSceneChild;
+import com.daviddev.j4cide.api.Interactable;
 import com.daviddev.j4cide.ui.IconMapper;
 import com.daviddev.j4cide.ui.UiApplication;
 import com.daviddev.j4cide.ui.UiCodeScene;
@@ -18,7 +19,7 @@ import com.daviddev.j4cide.util.ColorUtil;
 import javax.swing.JScrollPane;
 
 @ExeceptionHandlerMaker
-public class FileExplorerPane extends HeaderPanel implements CodeSceneChild {
+public class FileExplorerPane extends HeaderPanel implements CodeSceneChild, Interactable {
 
 	private static final long serialVersionUID = -8261955161217960392L;
 	
@@ -44,7 +45,7 @@ public class FileExplorerPane extends HeaderPanel implements CodeSceneChild {
 	
 		getContentPanel().add(scrollPane, BorderLayout.CENTER);
 		
-		explorerTree = new FileExplorerTree(this, new File(".//profile//workspace//Soma x+y em C"));
+		explorerTree = new FileExplorerTree(this, new File(getCodeScene().getProjectFolder()));
 		
 		explorerTree.addMouseListener(new MouseAdapter() {
 	        
@@ -57,6 +58,18 @@ public class FileExplorerPane extends HeaderPanel implements CodeSceneChild {
 		explorerTree.setBounds(20, 20, 100, 100);
 		scrollPane.setViewportView(explorerTree);
 		
+	}
+	
+	@Override
+	public void open() {
+		setVisible(true);
+		getCodeScene().getConsoleDividerPane().setDividerLocation(0.2d);
+		getCodeScene().getConsoleDividerPane().revalidate();
+	}
+	
+	@Override
+	public void close() {
+		setVisible(false);
 	}
 	
 	public void reload() {

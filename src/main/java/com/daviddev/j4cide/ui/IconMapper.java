@@ -32,10 +32,15 @@ public final class IconMapper {
 	public static final String EXECUTE_ICON = "exc";
 	public static final String KILL_ICON = "kll";
 	public static final String CONFIG_ICON = "cfg";
+	public static final String EXPLORER_ICON = "expr";
 	public static final String LOG_ICON = "lg";
 	public static final String CPP2_ICON = "cpp2";
 	
 	public static void registerAllIcons() {
+
+		if (!MAPPER.isEmpty())
+			return;
+		
 		registerIcon(UNKNOWN_ICON, iconOf("unknown_16px.svg"));
 		registerIcon(PROJECT_ICON, iconOf("project_16px.svg"));
 		registerIcon(FOLDER_ICON, iconOf("folder_16px.svg"));
@@ -51,8 +56,10 @@ public final class IconMapper {
 		registerIcon(EXECUTE_ICON, iconOf("execute_16px.svg"));
 		registerIcon(KILL_ICON, iconOf("kill_16px.svg"));
 		registerIcon(CONFIG_ICON, iconOf("config_16px.svg"));
+		registerIcon(EXPLORER_ICON, iconOf("explorer_16px.svg"));
 		registerIcon(LOG_ICON, iconOf("log_16px.svg"));
 		registerIcon(CPP2_ICON, iconOf("cpp2_16px.svg"));
+
 	}
 
 	public static ImageIcon iconOf(@NotNull String iconName) {
