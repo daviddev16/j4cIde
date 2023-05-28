@@ -48,12 +48,10 @@ public final class ApplicationContextManager implements UiAdapter {
 			interactable = getConsoleUI();
 			break;
 		}
-
 		if (interactable == null) {
 			getLogger().warn("Fonte de interação inválida.");
 			return;
 		}
-
 		if (stateType == InteractStateType.CLOSE)
 			interactable.close();
 		else

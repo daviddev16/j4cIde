@@ -4,10 +4,15 @@ import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import com.daviddev.j4cide.core.runner.J4CTCPClient;
 
 /*TODO:REFACTOR*/
 public final class Compiler {
@@ -36,10 +41,10 @@ public final class Compiler {
 		commands.add(GCC.getAbsolutePath());
 		commands.add("-o");
 		File build = new File(new File(".//profile//binaries//builds"), name);
-		
+
 		if(build.exists())
 			build.delete();
-		
+
 		commands.add(build.getAbsolutePath());
 		commands.add(clangFiles.toString().trim());
 		processBuilder.command(commands);
@@ -67,14 +72,14 @@ public final class Compiler {
 	public void starter(ApplicationContextManager contextManager, File build) {
 		contextManager.getLogger().info("Iniciando programa...");
 		new Thread(new Runnable() {
-
 			@Override
 			public void run() {
 				try {
-					String executable = build.getAbsolutePath();
-					ProcessBuilder processBuilder = new ProcessBuilder("cmd.exe", "/c", "start", executable);
-					contextManager.getLogger().info("O programa iniciou, os logs serão exibidos no cmd.");
-					Process process = processBuilder.start();
+					String executable = "C:\\Users\\David\\eclipse-workspace\\j4cIde\\CSharp.Runner\\J4cIde.Runner\\J4cIde.Runner\\bin\\Release\\J4cIde.Runner.exe";
+					Desktop.getDesktop().open(new File(executable));
+					Thread.sleep(100);
+					J4CTCPClient runnerTcpClient = new J4CTCPClient();
+					runnerTcpClient.start(build.getAbsolutePath());
 				}catch (Exception e) {
 					contextManager.getLogger().error(e.getMessage());
 				}

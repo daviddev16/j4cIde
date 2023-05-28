@@ -7,6 +7,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import javax.swing.ToolTipManager;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import org.fife.rsta.ac.LanguageSupport;
 import org.fife.rsta.ac.LanguageSupportFactory;
@@ -15,29 +17,31 @@ import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import com.daviddev.j4cide.api.Styleable;
+import com.daviddev.j4cide.core.ApplicationContextManager;
 import com.daviddev.j4cide.model.CideStyle;
 import com.daviddev.j4cide.model.FileTreeNode;
 import com.daviddev.j4cide.ui.base.EditorPane;
 import com.daviddev.j4cide.util.ColorUtil;
 import com.daviddev.j4cide.util.IOUtil;
 
-public class ChildCodeEditor extends Container implements Styleable {
+public class ChildCodeEditor extends Container implements Styleable, DocumentListener {
 
 	private static final long serialVersionUID = 1L;
 
 	public static final LanguageSupportFactory LSF = LanguageSupportFactory.get();
 
+	private final FileTreeNode treeNodeOwner;
+	private String copyOfOriginalText = new String();
 	private RSyntaxTextArea textArea;
 	private RTextScrollPane scrollPane;
 	private CideStyle cideStyle;
-
-	private final FileTreeNode treeNodeOwner;
 
 	public ChildCodeEditor(FileTreeNode treeNodeOwner) throws IOException {
 		this.treeNodeOwner = treeNodeOwner;
 
 		setLayout(new BorderLayout());
 		textArea = new RSyntaxTextArea(20, 60);
+
 		textArea.addKeyListener(new KeyAdapter() {
 
 		});
@@ -47,6 +51,7 @@ public class ChildCodeEditor extends Container implements Styleable {
 
 		initializeTextArea(textArea);
 		loadFromTreeNode();
+		textArea.getDocument().addDocumentListener(this);
 		add(scrollPane);
 	}
 
@@ -71,7 +76,7 @@ public class ChildCodeEditor extends Container implements Styleable {
 		LSF.register(textArea);
 
 		textArea.setSyntaxEditingStyle(syntaxLanguage);
-		textArea.setText(contentOfFile);
+		updateText(contentOfFile);
 	}
 
 	@Deprecated(forRemoval = false)
@@ -103,16 +108,50 @@ public class ChildCodeEditor extends Container implements Styleable {
 	public void saveToFile() {
 		try {
 			IOUtil.write(treeNodeOwner.getFilePath(), textArea.getText());
+			ApplicationContextManager.getContextManager()
+				.getEditorUI().removeStarInTitle(this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public void changedUpdate(DocumentEvent e) {
+		if (!getCopyOfOriginalText().equals(textArea.getText()))
+			ApplicationContextManager.getContextManager()
+				.getEditorUI().removeStarInTitle(ChildCodeEditor.this);
+		else
+			ApplicationContextManager.getContextManager()
+				.getEditorUI().removeStarInTitle(ChildCodeEditor.this);
+	}
+
+	@Override
+	public void removeUpdate(DocumentEvent e) {}
+	@Override
+	public void insertUpdate(DocumentEvent e) {}
 	
 	@Override
 	public void applyStyle(CideStyle cideStyle) {
 		this.cideStyle = cideStyle;
 		changeCodeThemeByCideStyle(cideStyle);
 		changeFontByCideStyle(cideStyle);
+	}
+
+	private void updateText(String content) {
+		textArea.setText(content);
+		setCopyOfOriginalText(textArea.getText());
+	}
+
+	public void setCopyOfOriginalText(String copyOfOriginalText) {
+		this.copyOfOriginalText = copyOfOriginalText;
+	}
+
+	public String getCopyOfOriginalText() {
+		return copyOfOriginalText;
+	}
+
+	public String getFileName() {
+		return getTreeNodeOwner().getName();
 	}
 
 	public FileTreeNode getTreeNodeOwner() {
@@ -123,5 +162,4 @@ public class ChildCodeEditor extends Container implements Styleable {
 	public CideStyle getCideStyle() {
 		return cideStyle;
 	}
-
 }

@@ -1,8 +1,5 @@
 package com.daviddev.j4cide.ui.base;
 
-
-import java.util.Objects;
-
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
@@ -40,26 +37,26 @@ public class EditorPane extends JPanel implements CodeSceneChild {
 	private JTabbedPane tabbedPane;
 
 	public EditorPane(UiCodeScene codeScene) {
-
 		this.codeScene = codeScene;
 		tabbedCloseCallback = new TabbedPaneCloseCallback();
-
 		tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		initializeTabbedPane(tabbedPane);
-
-		GroupLayout gl_contentPane = new GroupLayout(this);
-
-		gl_contentPane.setHorizontalGroup(
-				gl_contentPane.createParallelGroup(Alignment.LEADING)
+		configureGroupLayout();
+		setBorder(null);
+	}
+	
+	private void configureGroupLayout() {
+		GroupLayout groupLayout = new GroupLayout(this);
+		groupLayout.setHorizontalGroup(
+				groupLayout.createParallelGroup(Alignment.LEADING)
 				.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
 				);
-		gl_contentPane.setVerticalGroup(
-				gl_contentPane.createParallelGroup(Alignment.LEADING)
+		groupLayout.setVerticalGroup(
+				groupLayout.createParallelGroup(Alignment.LEADING)
 				.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
 				);
 
-		setLayout(gl_contentPane);
-		setBorder(null);
+		setLayout(groupLayout);
 	}
 
 	private void initializeTabbedPane(JTabbedPane tabbedPane) {
@@ -71,11 +68,9 @@ public class EditorPane extends JPanel implements CodeSceneChild {
 	}
 
 	public void newTabOf(FileTreeNode treeNode) {
-		Objects.requireNonNull(treeNode, "treeNode");
-
-		if (!isLoadable(treeNode.getExtensionType()))
+		if (!isLoadable(treeNode.getExtensionType())) {
 			return;
-
+		}
 		try {
 			int tabIndex = getTabbedPane().getTabCount();
 			ChildCodeEditor codeEditor = new ChildCodeEditor(treeNode);
@@ -84,12 +79,11 @@ public class EditorPane extends JPanel implements CodeSceneChild {
 			codeEditor.applyStyle(UiApplication.DEFAULT_STYLE);
 			treeNode.open();
 			getTabbedPane().setSelectedIndex(tabIndex);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
+	
 	public boolean isLoadable(FileExtensionType extensionType) {
 		for (FileExtensionType availableType : AVAILABLE_EXTENSIONS) {
 			if (availableType.equals(extensionType)) {
@@ -98,9 +92,27 @@ public class EditorPane extends JPanel implements CodeSceneChild {
 		}
 		return false;
 	}
-
+	
 	public boolean focusOnTextArea(RSyntaxTextArea textArea) {
 		return textArea.requestFocusInWindow();
+	}
+	
+	public void removeStarInTitle(ChildCodeEditor codeEditor) {
+		int tabIndex = indexOfTab(codeEditor);
+		if (tabIndex != -1)
+			getTabbedPane().setTitleAt(tabIndex, 
+					codeEditor.getFileName());	
+	}
+	
+	public void addStarInTitle(ChildCodeEditor codeEditor) {
+		int tabIndex = indexOfTab(codeEditor);
+		if (tabIndex != -1)
+			getTabbedPane().setTitleAt(tabIndex, 
+					codeEditor.getFileName() + "*");
+	}
+	
+	public int indexOfTab(ChildCodeEditor codeEditor) {
+		return getTabbedPane().indexOfComponent(codeEditor);
 	}
 
 	public JTabbedPane getTabbedPane() {

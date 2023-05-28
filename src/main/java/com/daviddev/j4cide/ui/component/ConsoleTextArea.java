@@ -1,21 +1,19 @@
 package com.daviddev.j4cide.ui.component;
 
 import java.awt.Color;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.util.Locale;
 
+import javax.swing.Icon;
+import javax.swing.JLabel;
 import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 import com.daviddev.j4cide.model.CideStyle;
+import com.daviddev.j4cide.ui.IconMapper;
 import com.daviddev.j4cide.ui.UiApplication;
 
 
@@ -28,39 +26,43 @@ public class ConsoleTextArea extends JTextPane {
 		setForeground(Color.red);
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setBackground(UiApplication.bg());
-		
-		blankLine();
+		setStyledDocument(new DefaultStyledDocument());
 	}
 	
-	public void appendDateText(String text, Color color) {
-        Instant instant = Instant.now();
-        ZoneId zoneId = ZoneId.of("America/Sao_Paulo");
-
-        DateTimeFormatter formatter = DateTimeFormatter
-                .ofLocalizedDateTime(FormatStyle.MEDIUM)
-                .withLocale(new Locale("pt", "BR"));
-
-        ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(instant, zoneId);
-        String formattedDateTime = formatter.format(zonedDateTime);
-        
-        appendText(formattedDateTime + " -> " + text, color);
-    }
-	
-	public void blankLine() {
-		appendText("", Color.white);
-	}
-	
-	public void appendText(String text, Color color) {
-        StyledDocument document = getStyledDocument();
+	public void print(String text, Color color) { 
+		StyledDocument document = getStyledDocument();
         Style style = document.addStyle("CustomStyle", null);
-        StyleConstants.setForeground(style, color);
-
+        Icon icon = IconMapper.icon(IconMapper.LOG_WARN_ICON);
+        StyleConstants.setComponent(style, createStyledLabel(text, color, icon));
+       
+        
         try {
-            document.insertString(document.getLength(), text+"\n", style);
+            document.insertString(document.getLength(), text, style);
             setCaretPosition(getDocument().getLength());
         } catch (BadLocationException e) {
             e.printStackTrace();
         }
     }
-
+	
+	private JLabel createStyledLabel(String text, Color color, Icon icon) {
+		JLabel label = new JLabel();
+		label.setText(text);
+		if (!text.isBlank()) {
+			label.setIcon(icon);
+		}
+		label.setFont(getFont());
+		return label;
+	}
+	
+	public void println(String text, Color color) {
+		print(text.concat("\n"), color);
+	}
+	
+	public void printBlankLine() {
+		println("", Color.WHITE);
+	}
+	
+	public void clear() {
+		setText("");
+	}
 }

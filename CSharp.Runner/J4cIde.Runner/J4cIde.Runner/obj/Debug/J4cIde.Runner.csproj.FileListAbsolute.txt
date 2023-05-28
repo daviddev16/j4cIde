@@ -1,0 +1,1 @@
+C:\Users\David\eclipse-workspace\j4cIde\CSharp.Runner\J4cIde.Runner\J4cIde.Runner\obj\Debug\J4cIde.Runner.csproj.CoreCompileInputs.cache

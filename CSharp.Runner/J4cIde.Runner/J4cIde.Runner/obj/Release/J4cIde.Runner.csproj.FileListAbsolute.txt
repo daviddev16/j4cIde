@@ -1,0 +1,5 @@
+C:\Users\David\eclipse-workspace\j4cIde\CSharp.Runner\J4cIde.Runner\J4cIde.Runner\bin\Release\J4cIde.Runner.exe
+C:\Users\David\eclipse-workspace\j4cIde\CSharp.Runner\J4cIde.Runner\J4cIde.Runner\bin\Release\J4cIde.Runner.pdb
+C:\Users\David\eclipse-workspace\j4cIde\CSharp.Runner\J4cIde.Runner\J4cIde.Runner\obj\Release\J4cIde.Runner.csproj.CoreCompileInputs.cache
+C:\Users\David\eclipse-workspace\j4cIde\CSharp.Runner\J4cIde.Runner\J4cIde.Runner\obj\Release\J4cIde.Runner.exe
+C:\Users\David\eclipse-workspace\j4cIde\CSharp.Runner\J4cIde.Runner\J4cIde.Runner\obj\Release\J4cIde.Runner.pdb

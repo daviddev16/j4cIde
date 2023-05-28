@@ -47,6 +47,7 @@ public class UiApplication extends JFrame {
 
 		setTitle("j4CIde");
 		setBounds(0, 0, 1200, 1000);
+		setMinimumSize(getMinimumSize());
 		setIconImage(FlatSVGUtils.svg2image(new File("./profile/icons/cpp_16px.svg").toURI().toURL(), 1.5f));
 		ApplicationContextManager.getContextManager().setUiApplication(this);
 		ApplicationContextManager.getContextManager().setCurrentCodeScene(codeScene);
