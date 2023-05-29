@@ -4,6 +4,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 
 import com.daviddev.j4cide.ui.action.CreateAction;
+import com.daviddev.j4cide.ui.action.DeleteAction;
+import com.daviddev.j4cide.ui.action.ExecuteAction;
 import com.daviddev.j4cide.ui.action.ExportAction;
 import com.daviddev.j4cide.ui.action.SaveAction;
 import com.daviddev.j4cide.ui.handler.ActionsHandler;
@@ -17,8 +19,13 @@ public class UiMenuBar extends JMenuBar {
 		JMenu mnFile = new JMenu("Arquivo");
 		mnFile.add(ActionsHandler.actionOf(SaveAction.class));
 		mnFile.add(ActionsHandler.actionOf(CreateAction.class));
+		mnFile.add(ActionsHandler.actionOf(DeleteAction.class));
 		mnFile.add(ActionsHandler.actionOf(ExportAction.class));
 		add(mnFile);
+		
+		JMenu mnBuild = new JMenu("Construção");
+		mnBuild.add(ActionsHandler.actionOf(ExecuteAction.class));
+		add(mnBuild);
 		
 		/*JMenuItem mntmNew = new JMenuItem("Novo...");
 		mnFile.add(mntmNew);

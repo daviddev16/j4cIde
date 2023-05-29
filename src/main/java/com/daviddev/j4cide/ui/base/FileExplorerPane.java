@@ -63,8 +63,8 @@ public class FileExplorerPane extends HeaderPanel implements CodeSceneChild, Int
 	@Override
 	public void open() {
 		setVisible(true);
-		getCodeScene().getConsoleDividerPane().setDividerLocation(0.2d);
-		getCodeScene().getConsoleDividerPane().revalidate();
+		getCodeScene().getEditorDividerPane().setDividerLocation(0.2d);
+		getCodeScene().getEditorDividerPane().revalidate();
 	}
 	
 	@Override
@@ -84,6 +84,10 @@ public class FileExplorerPane extends HeaderPanel implements CodeSceneChild, Int
 		 * */
 	}
 
+	public FileExplorerTree getExplorerTree() {
+		return explorerTree;
+	}
+	
 	@Override
 	public UiCodeScene getCodeScene() {
 		return this.codeScene;

@@ -14,7 +14,7 @@ public class OpenExplorerAction extends GenericAction {
 
 	private static final long serialVersionUID = 1L;
 
-	public OpenExplorerAction() { super("Exibir Explorador de Arquvos"); }
+	public OpenExplorerAction() { super("Arquivos"); }
 
 	@Override
 	public void perform(ActionEvent event, ApplicationContextManager contextManager) 

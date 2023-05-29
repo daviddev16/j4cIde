@@ -1,24 +1,28 @@
 package com.daviddev.j4cide.ui.action;
 
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 
 import javax.swing.KeyStroke;
 
 import com.daviddev.j4cide.api.GenericAction;
 import com.daviddev.j4cide.core.ApplicationContextManager;
-import com.daviddev.j4cide.core.Compiler;
+import com.daviddev.j4cide.core.CoreWorkspaceExecutor;
 import com.daviddev.j4cide.ui.InputMapper;
 
 public class ExecuteAction extends GenericAction {
 
 	private static final long serialVersionUID = 1L;
 	
-	public ExecuteAction() { super("Rodar"); }
+	public ExecuteAction() { super("Construir e Rodar"); }
 	
 	@Override
 	public void perform(ActionEvent event, ApplicationContextManager contextManager) {
-		Compiler compiler = new Compiler(contextManager.getCodeScene().getProjectFolder());
-		compiler.build(ApplicationContextManager.getContextManager(), "build.exe");
+		try {
+			CoreWorkspaceExecutor.compileAndRun(contextManager);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	

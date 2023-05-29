@@ -24,6 +24,9 @@ public final class InputMapper {
 	public static final KeyStroke VK_CREATE = KeyStroke.getKeyStroke(KeyEvent.VK_N, 
 			KeyEvent.CTRL_DOWN_MASK);
 	
+	public static final KeyStroke VK_DELETE = KeyStroke.getKeyStroke(KeyEvent.VK_O, 
+			KeyEvent.CTRL_DOWN_MASK);
+	
 	public static final KeyStroke VK_EXECUTE = KeyStroke.getKeyStroke(KeyEvent.VK_R, 
 			KeyEvent.CTRL_DOWN_MASK);
 	

@@ -20,19 +20,16 @@ public class FileExplorerTreeEventHandler extends MouseAdapter {
 	}
 
 	public void mouseClicked(MouseEvent e) {
-
 		if (e.getClickCount() == 2) {
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode)
 					explorerTree.getLastSelectedPathComponent();
-
 			if (node == null) return;
-
 			FileTreeNode nodeInfo = (FileTreeNode)node.getUserObject();
 			if (!nodeInfo.isEditing()) {
-				System.out.println("oaoa");
 				getCodeScene().getEditorPane().newTabOf(nodeInfo);
 			}
-			
+		} else if (e.getButton() == MouseEvent.BUTTON3) {
+			System.out.println("aooa");
 		}
 		
 	}

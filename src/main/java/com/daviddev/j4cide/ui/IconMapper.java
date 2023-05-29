@@ -39,6 +39,7 @@ public final class IconMapper {
 	public static final String LOG_WARN_ICON = "lwicn";
 	public static final String LOG_INFO_ICON = "liicn";
 	public static final String LOG_ERROR_ICON = "lerricn";
+	public static final String LOG_SYNC_ICON = "lsycicn";
 	
 	public static void registerAllIcons() {
 
@@ -63,8 +64,10 @@ public final class IconMapper {
 		registerIcon(EXPLORER_ICON, iconOf("explorer_16px.svg"));
 		registerIcon(LOG_ICON, iconOf("log_16px.svg"));
 		registerIcon(CPP2_ICON, iconOf("cpp2_16px.svg"));
-		registerIcon(LOG_WARN_ICON, iconOf("warn_16px.svg", 10, 10));
-
+		registerIcon(LOG_WARN_ICON, iconOf("warn_16px.svg", 12, 12));
+		registerIcon(LOG_ERROR_ICON, iconOf("error_16px.svg", 12, 12));
+		registerIcon(LOG_INFO_ICON, iconOf("info_16px.svg", 12, 12));
+		registerIcon(LOG_SYNC_ICON, iconOf("sync_16px.svg", 12, 12));
 	}
 
 	public static ImageIcon iconOf(@NotNull String iconName) {

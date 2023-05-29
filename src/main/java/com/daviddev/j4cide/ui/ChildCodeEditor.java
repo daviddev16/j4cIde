@@ -119,7 +119,7 @@ public class ChildCodeEditor extends Container implements Styleable, DocumentLis
 	public void changedUpdate(DocumentEvent e) {
 		if (!getCopyOfOriginalText().equals(textArea.getText()))
 			ApplicationContextManager.getContextManager()
-				.getEditorUI().removeStarInTitle(ChildCodeEditor.this);
+				.getEditorUI().addStarInTitle(ChildCodeEditor.this);
 		else
 			ApplicationContextManager.getContextManager()
 				.getEditorUI().removeStarInTitle(ChildCodeEditor.this);

@@ -4,20 +4,21 @@ using System.Net.Sockets;
 using System.Text;
 using System.IO;
 using System.Diagnostics;
+using System.Threading;
 
 namespace J4cIde.Runner
 {
     public class J4cIdeRunnerServer
     {
 
-        private static readonly IPAddress LOCALHOST = IPAddress.Parse("127.0.0.1");
+        private static readonly IPAddress INET_ADDRESS = IPAddress.Any;
         private static readonly int BUFFER_MAX_SIZE = 1024*4;
-
         private static readonly int DEFAULT_PORT = 10799;
-        
+ 
+        private Stopwatch stopWatch = new Stopwatch();
         private TcpListener Listener;
 
-        public J4cIdeRunnerServer() : this(LOCALHOST, DEFAULT_PORT) { }
+        public J4cIdeRunnerServer() : this(INET_ADDRESS, DEFAULT_PORT) { }
 
         public J4cIdeRunnerServer(IPAddress address, int port)
         {
@@ -26,24 +27,21 @@ namespace J4cIde.Runner
 
         public void StartTcpLinkServer()
         {
-
+            /* começando socket tcp */
             Listener.Start();
-            Console.WriteLine("Servidor de comunicação J4cIde iniciado na porta.");
-            
+            Console.WriteLine("Aguardando dados para inicialização da aplicação.");
+            Console.WriteLine("Escutando na porta {0} no endereço {1} por" +
+                " comunicação TCP.", DEFAULT_PORT, INET_ADDRESS.ToString());
             /* aguardando conexão com a ide */
             TcpClient ideClient = Listener.AcceptTcpClient();
-            Console.WriteLine("Recebendo dados da IDE...");
-
+            Console.WriteLine("Sincronizando com a IDE");
             NetworkStream stream = ideClient.GetStream();
-
             /* Recebe o arquivo para rodar */
             string FilePath = ReceivedFromClient(ref stream);
-            SendToClient(ref stream, string.Format("O arquvido \"{0}\" foi recebido pelo Runner e será executado.", Path.GetFileName(FilePath)));
-
+            SendToClient(ref stream, string.Format("O arquvido \"{0}\" foi recebido" +
+                " pelo Runner e será executado.", Path.GetFileName(FilePath)));
             Console.Clear();
             Execute(ref stream, FilePath);
-            SendToClient(ref stream, string.Format(":CLOSE"));
-
             Listener.Stop();
             Environment.Exit(1000);
         }
@@ -59,11 +57,12 @@ namespace J4cIde.Runner
             StartInfo.FileName = @"C:\Windows\System32\cmd.exe";
             StartInfo.Verb = "runas";
             StartInfo.Arguments = "/c " + command;
+            stopWatch.Start();
             Process process = Process.Start(StartInfo);
+            stopWatch.Stop();
             process.EnableRaisingEvents = true;
             process.WaitForExit();
-            SendToClient(ref stream, "O programa foi encerrado com o código " + process.ExitCode);
-            SendToClient(ref stream, "Encerrando J4cIde Runner Server.");
+            SendToClient(ref stream, string.Format("A aplicação encerrou com o código {0}.", process.ExitCode));
         }
 
         private string ReceivedFromClient(ref NetworkStream stream)

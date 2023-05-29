@@ -1,10 +1,10 @@
 package com.daviddev.j4cide.ui.base;
 
 import java.awt.BorderLayout;
-import javax.swing.border.EmptyBorder;
 
 import com.daviddev.j4cide.api.CodeSceneChild;
 import com.daviddev.j4cide.api.Interactable;
+import com.daviddev.j4cide.ui.IconMapper;
 import com.daviddev.j4cide.ui.UiApplication;
 import com.daviddev.j4cide.ui.UiCodeScene;
 import com.daviddev.j4cide.ui.component.ConsoleTextArea;
@@ -18,20 +18,22 @@ public class ConsolePane extends HeaderPanel implements CodeSceneChild, Interact
 
 	private final UiCodeScene codeScene;
 	
-	public ConsoleTextArea area = new ConsoleTextArea(UiApplication.DEFAULT_STYLE);
+	private final ConsoleTextArea  consoleArea;
 	
 	public ConsolePane(UiCodeScene codeScene) {
 		super(100, 20);
 		
+		this.consoleArea = new ConsoleTextArea(UiApplication.DEFAULT_STYLE);
 		this.codeScene = codeScene;
 		
 		setTitle("Console");
+		setIcon(IconMapper.icon(IconMapper.LINKED_ICON));
 		getContentPanel().setOpaque(false);
 		getContentPanel().setLayout(new BorderLayout(0, 0));
 
 		
-		area.setEditable(false);
-		JScrollPane scrollPane = new JScrollPane(area);
+		consoleArea.setEditable(false);
+		JScrollPane scrollPane = new JScrollPane(consoleArea);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		
 		scrollPane.setOpaque(false);
@@ -40,6 +42,10 @@ public class ConsolePane extends HeaderPanel implements CodeSceneChild, Interact
 		
 	}
 
+	public ConsoleTextArea getConsoleArea() {
+		return consoleArea;
+	}
+	
 	@Override
 	public UiCodeScene getCodeScene() {
 		return codeScene;
@@ -53,6 +59,8 @@ public class ConsolePane extends HeaderPanel implements CodeSceneChild, Interact
 	@Override
 	public void open() {
 		setVisible(true);
+		getCodeScene().getConsoleDividerPane().setDividerLocation(0.2d);
+		getCodeScene().getConsoleDividerPane().revalidate();
 	}
 
 }

@@ -12,10 +12,10 @@ import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import com.daviddev.j4cide.core.logger.LogLevel;
 import com.daviddev.j4cide.model.CideStyle;
 import com.daviddev.j4cide.ui.IconMapper;
 import com.daviddev.j4cide.ui.UiApplication;
-
 
 public class ConsoleTextArea extends JTextPane {
 	
@@ -25,17 +25,15 @@ public class ConsoleTextArea extends JTextPane {
 		setFont(cideStyle.getSizedFont(12));
 		setForeground(Color.red);
 		setBorder(new EmptyBorder(5, 5, 5, 5));
-		setBackground(UiApplication.bg());
+		setBackground(UiApplication.bg());	
 		setStyledDocument(new DefaultStyledDocument());
 	}
-	
-	public void print(String text, Color color) { 
+
+	public void print(String text, LogLevel level) { 
 		StyledDocument document = getStyledDocument();
         Style style = document.addStyle("CustomStyle", null);
-        Icon icon = IconMapper.icon(IconMapper.LOG_WARN_ICON);
-        StyleConstants.setComponent(style, createStyledLabel(text, color, icon));
-       
-        
+        StyleConstants.setComponent(style, createStyledLabel(text, level.getColor(),
+        		getIconByLogLevel(level)));
         try {
             document.insertString(document.getLength(), text, style);
             setCaretPosition(getDocument().getLength());
@@ -50,16 +48,21 @@ public class ConsoleTextArea extends JTextPane {
 		if (!text.isBlank()) {
 			label.setIcon(icon);
 		}
+		label.setForeground(color);
 		label.setFont(getFont());
 		return label;
 	}
 	
-	public void println(String text, Color color) {
-		print(text.concat("\n"), color);
+	private Icon getIconByLogLevel(LogLevel level) {
+		return IconMapper.icon(level.getAssociatedIcon());
+	}
+	
+	public void println(String text, LogLevel level) {
+		print(text.concat("\n"), level);
 	}
 	
 	public void printBlankLine() {
-		println("", Color.WHITE);
+		println("", LogLevel.INFO);
 	}
 	
 	public void clear() {

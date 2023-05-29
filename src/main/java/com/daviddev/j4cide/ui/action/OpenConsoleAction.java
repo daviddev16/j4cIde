@@ -14,7 +14,7 @@ public class OpenConsoleAction extends GenericAction {
 
 	private static final long serialVersionUID = 1L;
 	
-	public OpenConsoleAction() { super("Exibir Console"); }
+	public OpenConsoleAction() { super("Logs"); }
 
 	@Override
 	public void perform(ActionEvent event, ApplicationContextManager contextManager) 

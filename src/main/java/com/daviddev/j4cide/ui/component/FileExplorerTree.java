@@ -19,21 +19,29 @@ public class FileExplorerTree extends JTree implements TreeCellRenderer {
 	private static final long serialVersionUID = -4564019534259200105L;
 
 	private final FileTreeNodeFactory factory = FileTreeNodeFactory.getInstance();
-	private final DefaultTreeModel model = new DefaultTreeModel(null);
-
+	
 	private final FileExplorerTreeEventHandler treeActionHandler;
 	private final FileExplorerPane explorerPane;
 	private final File projectFile;
 
+	private DefaultTreeModel model;
+	
 	public FileExplorerTree(FileExplorerPane explorerPane, File projectFile) {
 		this.explorerPane = explorerPane;
 		this.projectFile = projectFile;
 		this.treeActionHandler = new FileExplorerTreeEventHandler(this);
-		getModel().setRoot(factory.createDefaultTreeNode(projectFile, true));
+		load();
 		addMouseListener(treeActionHandler);
+		setCellRenderer(this);
+		
+	}
+	
+	public void load() {
+		clearSelection();
+		model = new DefaultTreeModel(null);
+		getModel().setRoot(factory.createDefaultTreeNode(projectFile, true));
 		walkThrough(projectFile, getRootNode());
 		setModel(model);	
-		setCellRenderer(this);
 	}
 
 	public void walkThrough(File file, DefaultMutableTreeNode root) {

@@ -44,14 +44,18 @@ public class UiApplication extends JFrame {
 	private final UiCodeScene codeScene = new UiCodeScene(".//profile//workspace//Soma_001");
 
 	private UiApplication() throws IOException {
-
 		setTitle("j4CIde");
 		setBounds(0, 0, 1200, 1000);
 		setMinimumSize(getMinimumSize());
 		setIconImage(FlatSVGUtils.svg2image(new File("./profile/icons/cpp_16px.svg").toURI().toURL(), 1.5f));
 		ApplicationContextManager.getContextManager().setUiApplication(this);
 		ApplicationContextManager.getContextManager().setCurrentCodeScene(codeScene);
+		createGroupLayout();
+		setJMenuBar(menuBar);
+		instance = this;
+	}
 
+	private void createGroupLayout() {
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
@@ -71,11 +75,8 @@ public class UiApplication extends JFrame {
 		);
 
 		getContentPane().setLayout(groupLayout);
-		setJMenuBar(menuBar);
-
-		instance = this;
 	}
-
+	
 	public static Color bg() {
 		ColorUIResource colorResource = ((ColorUIResource)UIManager.get(GLOBAL_BG_KEY));
 		return ColorUtil.darker(colorResource, 0.1f);
@@ -85,6 +86,7 @@ public class UiApplication extends JFrame {
 		if (instance == null) {
 			UiApplication applicationWindow = new UiApplication();
 			applicationWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+			applicationWindow.setLocationRelativeTo(null);
 			applicationWindow.setVisible(true);
 		}
 	}

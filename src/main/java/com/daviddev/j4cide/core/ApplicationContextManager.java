@@ -1,18 +1,24 @@
 package com.daviddev.j4cide.core;
 
 import java.awt.Component;
+import java.io.File;
+import java.io.IOException;
 
+import com.daviddev.j4cide.api.CoreBackendAdapter;
 import com.daviddev.j4cide.api.Interactable;
-import com.daviddev.j4cide.api.UiAdapter;
+import com.daviddev.j4cide.api.CoreFrontendAdapter;
+import com.daviddev.j4cide.core.logger.ApplicationConsoleLogger;
 import com.daviddev.j4cide.ui.ChildCodeEditor;
 import com.daviddev.j4cide.ui.UiApplication;
 import com.daviddev.j4cide.ui.UiCodeScene;
 import com.daviddev.j4cide.ui.base.ConsolePane;
 import com.daviddev.j4cide.ui.base.EditorPane;
 import com.daviddev.j4cide.ui.base.FileExplorerPane;
+import com.daviddev.j4cide.ui.component.ConsoleTextArea;
 import com.daviddev.j4cide.ui.model.CloseActionType;
+import com.daviddev.j4cide.util.Directories;
 
-public final class ApplicationContextManager implements UiAdapter {
+public final class ApplicationContextManager implements CoreFrontendAdapter, CoreBackendAdapter {
 
 	private static ApplicationContextManager instance;
 
@@ -135,8 +141,37 @@ public final class ApplicationContextManager implements UiAdapter {
 		return currentCodeScene;
 	}
 
+	@Override
+	public ConsoleTextArea getConsoleArea() {
+		return getConsoleUI().getConsoleArea();
+	}
 
+	@Override
+	public File getSourceFolder() {
+		return new File(getCodeScene()
+				.getProjectFolder());
+	}
 
+	@Override
+	public String getCompilerPath() {
+		try {
+			return new File(Directories.pathOf(Directories.BINARIES, 
+					"/mingw64/bin/gcc.exe"))
+					.getCanonicalPath();
+		} catch (IOException e) {
+			return null;
+		}
+	}
 
+	@Override
+	public String getApplicationRunnerPath() {
+		try {
+			return new File(Directories.pathOf(Directories.J4CIDE_RUNNER, 
+					"/bin/Release/J4cIde.Runner.exe"))
+					.getCanonicalPath();
+		} catch (IOException e) {
+			return null;
+		}
+	}
 
 }

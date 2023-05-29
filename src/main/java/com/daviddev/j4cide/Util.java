@@ -1,11 +1,6 @@
 package com.daviddev.j4cide;
 
-import java.awt.Color;
 import java.awt.Font;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxScheme;
@@ -25,6 +20,4 @@ public class Util {
 			textArea.setFont(font);
 		}
 	}
-
-	
 }

@@ -2,15 +2,11 @@ package com.daviddev.j4cide.ui;
 
 
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
 import java.util.function.Consumer;
 
 import javax.swing.JToolBar;
 
 import com.daviddev.j4cide.api.GenericAction;
-import com.daviddev.j4cide.external.FlatSVGIcon;
 import com.daviddev.j4cide.ui.action.OpenConfigAction;
 import com.daviddev.j4cide.ui.action.CreateAction;
 import com.daviddev.j4cide.ui.action.ExecuteAction;
@@ -31,9 +27,8 @@ public class UiToolBar extends JToolBar {
 
 		addSeparator(new Dimension(2, 1));
 		setOpaque(true);
-		//setBackground(ColorUtil.darker(Environment.BACKGROUND, 0.01f));
 		
-		createButton("Projeto em C / GCC (MinGW)", IconMapper.LINKED_ICON, 
+		createButton("Projeto em C / GCC (mingw64)", IconMapper.LINKED_ICON, 
 				(compilerBtn) -> compilerBtn.setContentAreaFilled(false));
 		
 		addSeparator(new Dimension(10, 1));
@@ -52,18 +47,8 @@ public class UiToolBar extends JToolBar {
 		
 		createButton(IconMapper.CONFIG_ICON, OpenConfigAction.class);
 		createButton(IconMapper.LOG_ICON, OpenConsoleAction.class);
-		createButton(IconMapper.ENV_ICON, OpenExplorerAction.class);
+		createButton(IconMapper.EXPLORER_ICON, OpenExplorerAction.class);
 
-		
-		UiButton btnNewButton_6_1_1 = new UiButton();
-		btnNewButton_6_1_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		btnNewButton_6_1_1.setIcon(new FlatSVGIcon(new File("./profile/icons/explorer_16px.svg")));
-		btnNewButton_6_1_1.setText("Exibir Explorador de Arquivos");
-		add(btnNewButton_6_1_1);
 	}
 	
 	private void createButton(String name, String iconId, Consumer<UiButton> configConsumer) {

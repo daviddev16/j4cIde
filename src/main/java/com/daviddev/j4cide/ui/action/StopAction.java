@@ -20,5 +20,6 @@ public class StopAction extends GenericAction {
 	}
 
 	@Override
-	public void perform(ActionEvent event, ApplicationContextManager contextManager) {}
+	public void perform(ActionEvent event, ApplicationContextManager contextManager) {
+	}
 }

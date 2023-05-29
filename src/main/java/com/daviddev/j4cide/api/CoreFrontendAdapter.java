@@ -5,9 +5,10 @@ import java.awt.Component;
 import com.daviddev.j4cide.ui.base.ConsolePane;
 import com.daviddev.j4cide.ui.base.EditorPane;
 import com.daviddev.j4cide.ui.base.FileExplorerPane;
+import com.daviddev.j4cide.ui.component.ConsoleTextArea;
 import com.daviddev.j4cide.ui.model.CloseActionType;
 
-public interface UiAdapter extends ExpandableInterfaceFactory {
+public interface CoreFrontendAdapter extends ExpandableInterfaceFactory {
 
 	EditorPane getEditorUI();
 	Component getSelectedTabComponent();
@@ -18,4 +19,5 @@ public interface UiAdapter extends ExpandableInterfaceFactory {
 	FileExplorerPane getFileExplorerUI();
 
 	ConsolePane getConsoleUI();
+	ConsoleTextArea getConsoleArea();
 }
