@@ -7,4 +7,5 @@ Uma IDE simples que usa GCC para aulas de programação em C.
 
 A IDE ainda não está funcional. Vou trabalhar para concluir o backend agora.
 
-![IMG](https://i.imgur.com/hBjanm4.png)
+
+![IMG](https://i.imgur.com/tJVZeIm_d.png?maxwidth=1200&fidelity=grand)
