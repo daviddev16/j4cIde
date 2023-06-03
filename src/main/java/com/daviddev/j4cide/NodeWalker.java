@@ -6,7 +6,7 @@ import java.util.function.Function;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import com.daviddev.j4cide.ui.component.FileExplorerTree;
+import com.daviddev.j4cide.ui.base.FileExplorerTree;
 
 /* fazer isso na base de arquvio ao inves de DefaultMutableTreeNode */
 public class NodeWalker {

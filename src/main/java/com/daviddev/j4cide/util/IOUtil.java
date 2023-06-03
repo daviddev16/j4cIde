@@ -30,12 +30,14 @@ public final class IOUtil {
 		
 	}
 	
+	public static String quotePath(String path) {
+		return "\"".concat(path).concat("\"");
+	}
 	
-	
-
 	public static String getExtension(File file) {
 		String filePath = file.getAbsolutePath();
 		return (file.isDirectory()) ? Extensions.DIR : 
 			filePath.substring(filePath.lastIndexOf('.') + 1, filePath.length());
 	}
+	
 }

@@ -6,6 +6,7 @@ import javax.swing.KeyStroke;
 
 import com.daviddev.j4cide.api.GenericAction;
 import com.daviddev.j4cide.core.ApplicationContextManager;
+import com.daviddev.j4cide.core.Inspector;
 import com.daviddev.j4cide.ui.InputMapper;
 
 public class SaveAction extends GenericAction {
@@ -17,6 +18,8 @@ public class SaveAction extends GenericAction {
 	@Override
 	public void perform(ActionEvent event, ApplicationContextManager contextManager) {
 		contextManager.saveContext();
+		ApplicationContextManager.getContextManager().getCodeScene().getInspectionPane().clearText();
+		Inspector.sendInspection(ApplicationContextManager.getContextManager());
 	}
 
 	@Override

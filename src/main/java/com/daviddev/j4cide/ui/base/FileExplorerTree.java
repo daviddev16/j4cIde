@@ -1,4 +1,4 @@
-package com.daviddev.j4cide.ui.component;
+package com.daviddev.j4cide.ui.base;
 
 import java.awt.Component;
 import java.io.File;
@@ -11,7 +11,7 @@ import javax.swing.tree.TreeCellRenderer;
 
 import com.daviddev.j4cide.factory.FileTreeNodeFactory;
 import com.daviddev.j4cide.model.FileTreeNode;
-import com.daviddev.j4cide.ui.base.FileExplorerPane;
+import com.daviddev.j4cide.ui.component.FileExplorerPane;
 import com.daviddev.j4cide.ui.handler.FileExplorerTreeEventHandler;
 
 public class FileExplorerTree extends JTree implements TreeCellRenderer {
@@ -57,17 +57,18 @@ public class FileExplorerTree extends JTree implements TreeCellRenderer {
 	@Override
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded,
 			boolean leaf, int row, boolean hasFocus) {
-
+		
 		if (value instanceof DefaultMutableTreeNode) {
-
-			FileTreeNode fileTreeNode = (FileTreeNode)((DefaultMutableTreeNode) value).getUserObject();
-
+		
+			FileTreeNode fileTreeNode = (FileTreeNode)
+					((DefaultMutableTreeNode) value).getUserObject();
+			
 			JLabel label = new JLabel();
-			label.setText( fileTreeNode.getName() );
+			label.setText(fileTreeNode.getName());
 			label.setIcon(fileTreeNode.getIcon());
+			
 			return label;
 		}
-
 		return new JLabel(value.toString());
 	}
 

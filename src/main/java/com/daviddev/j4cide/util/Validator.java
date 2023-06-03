@@ -25,6 +25,11 @@ public class Validator {
             throw new NullPointerException( format("O campo \"%s\" não pode ser nulo.", name) );
         return object;
     }
+    
+    public static void assertThat(String expressionText, boolean expression) {
+        if (!expression)
+        	throw new RuntimeException( format("A expressão \"%s\" falhou.", expressionText) );
+    }
 
     public static String checkIsNullOrEmpty(String str, String name) {
         if (str == null || str.isEmpty())

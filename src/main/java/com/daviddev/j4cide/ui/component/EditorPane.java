@@ -1,4 +1,6 @@
-package com.daviddev.j4cide.ui.base;
+package com.daviddev.j4cide.ui.component;
+
+import java.awt.Dimension;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -38,13 +40,19 @@ public class EditorPane extends JPanel implements CodeSceneChild {
 
 	public EditorPane(UiCodeScene codeScene) {
 		this.codeScene = codeScene;
+		final Dimension dimension = new Dimension(500, 20);
+		
+		setSize(dimension);
+		setPreferredSize(dimension);
+		setMinimumSize(dimension);
+
 		tabbedCloseCallback = new TabbedPaneCloseCallback();
 		tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		initializeTabbedPane(tabbedPane);
 		configureGroupLayout();
 		setBorder(null);
 	}
-	
+
 	private void configureGroupLayout() {
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
@@ -68,9 +76,10 @@ public class EditorPane extends JPanel implements CodeSceneChild {
 	}
 
 	public void newTabOf(FileTreeNode treeNode) {
-		if (!isLoadable(treeNode.getExtensionType())) {
+
+		if (!isLoadable(treeNode.getExtensionType()))
 			return;
-		}
+
 		try {
 			int tabIndex = getTabbedPane().getTabCount();
 			ChildCodeEditor codeEditor = new ChildCodeEditor(treeNode);
@@ -83,7 +92,7 @@ public class EditorPane extends JPanel implements CodeSceneChild {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public boolean isLoadable(FileExtensionType extensionType) {
 		for (FileExtensionType availableType : AVAILABLE_EXTENSIONS) {
 			if (availableType.equals(extensionType)) {
@@ -92,25 +101,25 @@ public class EditorPane extends JPanel implements CodeSceneChild {
 		}
 		return false;
 	}
-	
+
 	public boolean focusOnTextArea(RSyntaxTextArea textArea) {
 		return textArea.requestFocusInWindow();
 	}
-	
+
 	public void removeStarInTitle(ChildCodeEditor codeEditor) {
 		int tabIndex = indexOfTab(codeEditor);
 		if (tabIndex != -1)
 			getTabbedPane().setTitleAt(tabIndex, 
 					codeEditor.getFileName());	
 	}
-	
+
 	public void addStarInTitle(ChildCodeEditor codeEditor) {
 		int tabIndex = indexOfTab(codeEditor);
 		if (tabIndex != -1)
 			getTabbedPane().setTitleAt(tabIndex, 
 					codeEditor.getFileName() + "*");
 	}
-	
+
 	public int indexOfTab(ChildCodeEditor codeEditor) {
 		return getTabbedPane().indexOfComponent(codeEditor);
 	}

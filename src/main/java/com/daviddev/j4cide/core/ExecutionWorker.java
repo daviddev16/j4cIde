@@ -1,7 +1,11 @@
 package com.daviddev.j4cide.core;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public abstract class ExecutionWorker implements Runnable {
 
+	public static final AtomicInteger ID = new AtomicInteger();
+	
     private volatile boolean state = false;
     private volatile Thread worker;
 

@@ -165,7 +165,12 @@ seguida, o programa deve exibir o número da linha e da coluna onde um
 número informado pelo usuário encontra-se. Se o valor não for achado,
 mostrar uma mensagem informando o usuário.
 */
-void cinquentaesete_questao_vinteum() {}
+void cinquentaesete_questao_vinteum() {
+    int i = 10;
+    while (i < 20) {
+        i += 10;
+    }
+}
 
 
 int main()

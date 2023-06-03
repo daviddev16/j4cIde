@@ -34,8 +34,11 @@ public class HeaderPanel extends JPanel implements MouseListener {
 	
 	public HeaderPanel(int width, int height) {
 		
-		setSize(new Dimension(Math.max(width, 40), Math.max(height, 40)));
-		setPreferredSize(getSize());
+		final Dimension dimension = new Dimension(width, height);
+		
+		setSize(dimension);
+		setPreferredSize(dimension);
+		setMinimumSize(dimension);
 		
 		titlePanel = new JPanel();
 		titlePanel.addMouseListener(this);

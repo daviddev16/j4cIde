@@ -15,16 +15,12 @@ public class Main {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					
 					ApplicationContextManager.initializeContextManager();
 					CideThemeLoader.setupConfiguredTheme();
 					IconMapper.registerAllIcons();
-					
 					ActionsHandler.registerAllActions();
 					FileTreeNodeFactory.initialize();
-					
 					UiApplication.createApplicationWindow();
-				
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

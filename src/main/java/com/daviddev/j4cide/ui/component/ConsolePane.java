@@ -1,4 +1,4 @@
-package com.daviddev.j4cide.ui.base;
+package com.daviddev.j4cide.ui.component;
 
 import java.awt.BorderLayout;
 
@@ -7,7 +7,7 @@ import com.daviddev.j4cide.api.Interactable;
 import com.daviddev.j4cide.ui.IconMapper;
 import com.daviddev.j4cide.ui.UiApplication;
 import com.daviddev.j4cide.ui.UiCodeScene;
-import com.daviddev.j4cide.ui.component.ConsoleTextArea;
+import com.daviddev.j4cide.ui.base.HeaderPanel;
 
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
@@ -39,7 +39,6 @@ public class ConsolePane extends HeaderPanel implements CodeSceneChild, Interact
 		scrollPane.setOpaque(false);
 		getContentPanel().add(scrollPane, BorderLayout.CENTER);
 		scrollPane.setBorder(null);
-		
 	}
 
 	public ConsoleTextArea getConsoleArea() {

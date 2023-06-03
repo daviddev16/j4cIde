@@ -4,6 +4,9 @@ import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.daviddev.j4cide.api.CoreBackendAdapter;
 import com.daviddev.j4cide.api.Interactable;
 import com.daviddev.j4cide.api.CoreFrontendAdapter;
@@ -11,26 +14,35 @@ import com.daviddev.j4cide.core.logger.ApplicationConsoleLogger;
 import com.daviddev.j4cide.ui.ChildCodeEditor;
 import com.daviddev.j4cide.ui.UiApplication;
 import com.daviddev.j4cide.ui.UiCodeScene;
-import com.daviddev.j4cide.ui.base.ConsolePane;
-import com.daviddev.j4cide.ui.base.EditorPane;
-import com.daviddev.j4cide.ui.base.FileExplorerPane;
+import com.daviddev.j4cide.ui.component.ConsolePane;
 import com.daviddev.j4cide.ui.component.ConsoleTextArea;
+import com.daviddev.j4cide.ui.component.EditorPane;
+import com.daviddev.j4cide.ui.component.FileExplorerPane;
+import com.daviddev.j4cide.ui.component.InspectionPane;
 import com.daviddev.j4cide.ui.model.CloseActionType;
 import com.daviddev.j4cide.util.Directories;
+import com.daviddev.j4cide.util.IOUtil;
 
 public final class ApplicationContextManager implements CoreFrontendAdapter, CoreBackendAdapter {
 
 	private static ApplicationContextManager instance;
 
 	/* front-end */
-	private volatile UiApplication uiApplication;
-	private volatile UiCodeScene currentCodeScene;
+	private UiApplication uiApplication;
+	private UiCodeScene currentCodeScene;
 
 	/* back-end */
 	private final ApplicationConsoleLogger consoleLogger;
 
+	private JSONObject devJson;
+
 	public ApplicationContextManager() {
 		consoleLogger = new ApplicationConsoleLogger();
+		try {
+			devJson = new JSONObject(IOUtil.read("./profile/dev.json"));
+		} catch (JSONException | IOException e) {
+			e.printStackTrace();
+		}
 		instance = this;
 	}
 
@@ -53,9 +65,12 @@ public final class ApplicationContextManager implements CoreFrontendAdapter, Cor
 		case CONSOLE:
 			interactable = getConsoleUI();
 			break;
+		case INSPECTOR:
+			interactable = getInspectionUI();
+			break;
 		}
 		if (interactable == null) {
-			getLogger().warn("Fonte de interação inválida.");
+			getLogger().warn("? Fonte de interação inválida.");
 			return;
 		}
 		if (stateType == InteractStateType.CLOSE)
@@ -75,7 +90,7 @@ public final class ApplicationContextManager implements CoreFrontendAdapter, Cor
 			closeTabContext(tabIndex);
 		}
 	}
-	
+
 	@Override
 	public void closeTabContext(int tabIndex) {
 		Component codeEditor = getSelectedTabComponent();
@@ -85,7 +100,7 @@ public final class ApplicationContextManager implements CoreFrontendAdapter, Cor
 		((ChildCodeEditor)codeEditor).getTreeNodeOwner().close();
 		getEditorUI().getTabbedPane().removeTabAt(tabIndex);
 	}
-	
+
 	@Override
 	public void saveContext() {
 		Component codeEditor = getSelectedTabComponent();
@@ -118,11 +133,17 @@ public final class ApplicationContextManager implements CoreFrontendAdapter, Cor
 	}
 
 	@Override
+	public InspectionPane getInspectionUI() {
+		return getContextManager().getCodeScene()
+				.getInspectionPane();
+	}
+
+	@Override
 	public Component getSelectedTabComponent() {
 		return getContextManager().getEditorUI()
 				.getTabbedPane().getSelectedComponent();
 	}
-	
+
 	public void setCurrentCodeScene(UiCodeScene currentCodeScene) {
 		this.currentCodeScene = currentCodeScene;
 	}
@@ -154,13 +175,7 @@ public final class ApplicationContextManager implements CoreFrontendAdapter, Cor
 
 	@Override
 	public String getCompilerPath() {
-		try {
-			return new File(Directories.pathOf(Directories.BINARIES, 
-					"/mingw64/bin/gcc.exe"))
-					.getCanonicalPath();
-		} catch (IOException e) {
-			return null;
-		}
+		return devJson.getString("gcc.path");
 	}
 
 	@Override
@@ -173,5 +188,4 @@ public final class ApplicationContextManager implements CoreFrontendAdapter, Cor
 			return null;
 		}
 	}
-
 }

@@ -29,7 +29,7 @@ public class ConsoleTextArea extends JTextPane {
 		setStyledDocument(new DefaultStyledDocument());
 	}
 
-	public void print(String text, LogLevel level) { 
+	public synchronized void print(String text, LogLevel level) { 
 		StyledDocument document = getStyledDocument();
         Style style = document.addStyle("CustomStyle", null);
         StyleConstants.setComponent(style, createStyledLabel(text, level.getColor(),
@@ -45,7 +45,7 @@ public class ConsoleTextArea extends JTextPane {
 	private JLabel createStyledLabel(String text, Color color, Icon icon) {
 		JLabel label = new JLabel();
 		label.setText(text);
-		if (!text.isBlank()) {
+		if (!text.isEmpty()) {
 			label.setIcon(icon);
 		}
 		label.setForeground(color);

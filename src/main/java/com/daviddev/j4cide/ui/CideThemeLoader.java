@@ -14,7 +14,7 @@ public final class CideThemeLoader {
 	public static void setupConfiguredTheme() {
 		if (SystemInfo.isMacOS) {
 			System.setProperty("apple.laf.useScreenMenuBar", "true");
-			System.setProperty("apple.awt.application.name", "FlatLaf Demo");
+			System.setProperty("apple.awt.application.name", "J4cIde");
 			System.setProperty("apple.awt.application.appearance", "system");
 		}
 		if (SystemInfo.isLinux) {

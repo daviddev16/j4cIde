@@ -4,7 +4,6 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 import com.daviddev.j4cide.core.ApplicationContextManager;
@@ -12,8 +11,6 @@ import com.daviddev.j4cide.core.BuildEngine;
 import com.daviddev.j4cide.core.ExecutionWorker;
 
 public final class RunnerSyncStarter extends ExecutionWorker {
-
-	public static final AtomicInteger ID = new AtomicInteger();
 
 	public static AtomicReference<RunnerSyncStarter> syncStarterReference = new AtomicReference<>();
 

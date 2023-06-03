@@ -6,10 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import com.daviddev.j4cide.util.Directories;
 
@@ -19,7 +16,6 @@ import com.daviddev.j4cide.util.Directories;
  **/
 public final class BuildEngine extends ExecutionWorker {
 
-	public static final AtomicInteger ID = new AtomicInteger();
 	public static final Object LOCK = new Object();
 
 	public static final int SUCCESS = 0;
@@ -42,7 +38,7 @@ public final class BuildEngine extends ExecutionWorker {
 	protected void onBegin() {
 		try {
 			contextManager.getLogger().clear();
-			build(createUniqueName());
+			build(createUniqueBuildName());
 		} catch (Exception e) {
 			contextManager.getLogger().error("Houve um problema na compilação do projeto.");
 			contextManager.getLogger().error(e.getClass().getSimpleName() + ": " + e.getMessage());
@@ -62,17 +58,21 @@ public final class BuildEngine extends ExecutionWorker {
 
 		String compilerPath = contextManager.getCompilerPath();
 
-		contextManager.getLogger().space(1);
 		contextManager.getLogger().info("=|===================================|=");
 		contextManager.getLogger().info("=| INICIANDO PROCESSO DE COMPILAÇÃO  |=");
 		contextManager.getLogger().info("=|===================================|=");
 		
-		clearGarbage(contextManager);
-		Process process = createProcess(compilerPath, buildName);
+		clearBuildGarbage();
+		
+		buildFile = new File(Directories.BUILDS, buildName);
+		
+		Process process = ProcessManager.createCompilerProcess(sourceFolder, 
+				compilerPath, "", buildFile, createFilesArgument());
+		
 		handleInputStream(process.getInputStream());
 		int exitCodeValue = process.waitFor();
 
-		if (wasSuccessfullyCompiled(exitCodeValue)) {
+		if (isDoneSuccessfully(exitCodeValue)) {
 			contextManager.getLogger().info("O projeto \"" + sourceFolder.getName() + 
 					"\" foi compilado em \"" + buildName + "\"");
 			success = true;
@@ -80,7 +80,11 @@ public final class BuildEngine extends ExecutionWorker {
 		else {
 			contextManager.getLogger().warn("Houve um problema na hora de"
 					+ " compilar o projeto, verifique:");
-			showAllProblems();
+			
+			for (String line : getCompilerLogs().toString().split("\n")) {
+				contextManager.getLogger().error(line);
+			}
+			
 			success = false;
 		}
 		contextManager.getLogger().info("Processo de compilação finalizado.");
@@ -95,67 +99,27 @@ public final class BuildEngine extends ExecutionWorker {
 			getCompilerLogs().append(line).append('\n');
 		}
 	}
-	
-	private Process createProcess(String compilerPath, 
-								  String buildName) throws IOException {
-		String allCFiles = createStringOfAllCFiles();
-		ProcessBuilder processBuilder = new ProcessBuilder();
-		processBuilder.directory(sourceFolder);
-		processBuilder.redirectErrorStream(true);
-		List<String> commands = new ArrayList<>();
-		commands.add(quotePath(compilerPath));
-		commands.add("-o");
-		buildFile = new File(Directories.BUILDS, buildName);
-		commands.add(quotePath(buildFile.getAbsolutePath()));
-		commands.add(allCFiles.trim());		
-		processBuilder.command(commands);
-		Process process = processBuilder.start();
-		return process;
-	}
-	
-	private void showAllProblems() {
-		for (String line : getCompilerLogs().toString().split("\n")) {
-			contextManager.getLogger().error(line);
-		}
-	}
-	
-	private void clearGarbage(ApplicationContextManager contextManager) {
-		contextManager.getLogger().info("Limpando arquivos de build antigos");
-		for (File buildFiles : new File(Directories.BUILDS).listFiles()) {
-			buildFiles.delete();
-		}
-	}
-	
-	private boolean wasSuccessfullyCompiled(int exitCode) {
-		return (exitCode == SUCCESS);
-	}
 
-	/* TODO:MELHORAR: implementar recursividade para sub-pastas depois */
-	private void walk(StringBuilder files, File root) {
-		for (File file : root.listFiles()) {
-			if (file.isFile() && (file.getName().endsWith(".c") || 
-					file.getName().endsWith(".h"))) {
-				files.append(quotePath(file.getName())).append(' ');
-			}
-		}
-	}
-
-	private String createUniqueName() {
+	private String createUniqueBuildName() {
 		Date dataAtual = new Date();
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
         String fixedFolderName = fixedFileName();
         return fixedFolderName + "_" + formato.format(dataAtual) + ".exe";
 	}
 	
-	private String createStringOfAllCFiles() {
+	private String createFilesArgument() {
 		StringBuilder builder = new StringBuilder();
-		walk(builder, sourceFolder);
-		builder.trimToSize();
-		return builder.toString();
+		FileWalker.appendFile(builder, sourceFolder, false, Constants.EXTENSIONS);
+		return builder.toString().trim();
 	}
 
-	private String quotePath(String path) {
-		return "\"".concat(path).concat("\"");
+	private void clearBuildGarbage() {
+		for (File buildFiles : new File(Directories.BUILDS).listFiles())
+			buildFiles.delete();
+	}
+	
+	private boolean isDoneSuccessfully(int exitCode) {
+		return (exitCode == SUCCESS);
 	}
 	
 	public String fixedFileName() {

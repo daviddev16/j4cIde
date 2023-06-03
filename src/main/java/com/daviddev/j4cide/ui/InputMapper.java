@@ -35,5 +35,8 @@ public final class InputMapper {
 	
 	public static final KeyStroke VK_STOP = KeyStroke.getKeyStroke(KeyEvent.VK_P, 
 			KeyEvent.CTRL_DOWN_MASK);
+	
+	public static final KeyStroke VK_INSPECTOR = KeyStroke.getKeyStroke(KeyEvent.VK_H, 
+			KeyEvent.CTRL_DOWN_MASK);
 
 }

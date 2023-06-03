@@ -1,4 +1,4 @@
-package com.daviddev.j4cide.ui.component;
+package com.daviddev.j4cide.ui.base;
 
 
 import javax.swing.JButton;

@@ -18,9 +18,10 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 
 import com.daviddev.j4cide.api.Styleable;
 import com.daviddev.j4cide.core.ApplicationContextManager;
+import com.daviddev.j4cide.core.Inspector;
 import com.daviddev.j4cide.model.CideStyle;
 import com.daviddev.j4cide.model.FileTreeNode;
-import com.daviddev.j4cide.ui.base.EditorPane;
+import com.daviddev.j4cide.ui.component.EditorPane;
 import com.daviddev.j4cide.util.ColorUtil;
 import com.daviddev.j4cide.util.IOUtil;
 
@@ -79,7 +80,7 @@ public class ChildCodeEditor extends Container implements Styleable, DocumentLis
 		updateText(contentOfFile);
 	}
 
-	@Deprecated(forRemoval = false)
+	@Deprecated()
 	private void changeCodeThemeByCideStyle(CideStyle cideStyle) {
 		try {
 			Theme theme = Theme.load(new FileInputStream(cideStyle.getCodeStyleFile()));
@@ -90,7 +91,7 @@ public class ChildCodeEditor extends Container implements Styleable, DocumentLis
 		}
 	}
 
-	@Deprecated(forRemoval = false)
+	@Deprecated()
 	private void changeFontByCideStyle(CideStyle cideStyle) {
 		textArea.setFont(cideStyle.getSizedFont(11));
 		textArea.revalidate();
@@ -109,27 +110,38 @@ public class ChildCodeEditor extends Container implements Styleable, DocumentLis
 		try {
 			IOUtil.write(treeNodeOwner.getFilePath(), textArea.getText());
 			ApplicationContextManager.getContextManager()
-				.getEditorUI().removeStarInTitle(this);
+			.getEditorUI().removeStarInTitle(this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
+	/* experimental */
+	private volatile int changes;
+	private final int MAX_CHANGES_UNTIL_INSPECT = 5;
+
 	@Override
 	public void changedUpdate(DocumentEvent e) {
+		changes++;
+		if (changes >= MAX_CHANGES_UNTIL_INSPECT) {
+			ApplicationContextManager.getContextManager().saveContext();
+			ApplicationContextManager.getContextManager().getCodeScene().getInspectionPane().clearText();
+			Inspector.sendInspection(ApplicationContextManager.getContextManager());
+			changes = 0;
+		}
 		if (!getCopyOfOriginalText().equals(textArea.getText()))
 			ApplicationContextManager.getContextManager()
-				.getEditorUI().addStarInTitle(ChildCodeEditor.this);
+			.getEditorUI().addStarInTitle(ChildCodeEditor.this);
 		else
 			ApplicationContextManager.getContextManager()
-				.getEditorUI().removeStarInTitle(ChildCodeEditor.this);
+			.getEditorUI().removeStarInTitle(ChildCodeEditor.this);
 	}
 
 	@Override
 	public void removeUpdate(DocumentEvent e) {}
 	@Override
 	public void insertUpdate(DocumentEvent e) {}
-	
+
 	@Override
 	public void applyStyle(CideStyle cideStyle) {
 		this.cideStyle = cideStyle;

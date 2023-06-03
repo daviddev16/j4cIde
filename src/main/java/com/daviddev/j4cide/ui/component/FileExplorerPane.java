@@ -1,4 +1,4 @@
-package com.daviddev.j4cide.ui.base;
+package com.daviddev.j4cide.ui.component;
 
 
 import java.awt.BorderLayout;
@@ -13,7 +13,8 @@ import com.daviddev.j4cide.api.Interactable;
 import com.daviddev.j4cide.ui.IconMapper;
 import com.daviddev.j4cide.ui.UiApplication;
 import com.daviddev.j4cide.ui.UiCodeScene;
-import com.daviddev.j4cide.ui.component.FileExplorerTree;
+import com.daviddev.j4cide.ui.base.FileExplorerTree;
+import com.daviddev.j4cide.ui.base.HeaderPanel;
 import com.daviddev.j4cide.util.ColorUtil;
 
 import javax.swing.JScrollPane;

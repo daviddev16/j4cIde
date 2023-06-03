@@ -7,7 +7,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import com.daviddev.j4cide.model.FileTreeNode;
 import com.daviddev.j4cide.ui.UiCodeScene;
-import com.daviddev.j4cide.ui.component.FileExplorerTree;
+import com.daviddev.j4cide.ui.base.FileExplorerTree;
 
 public class FileExplorerTreeEventHandler extends MouseAdapter {
 

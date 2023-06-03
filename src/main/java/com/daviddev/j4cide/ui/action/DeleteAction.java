@@ -12,7 +12,7 @@ import com.daviddev.j4cide.api.GenericAction;
 import com.daviddev.j4cide.core.ApplicationContextManager;
 import com.daviddev.j4cide.model.FileTreeNode;
 import com.daviddev.j4cide.ui.InputMapper;
-import com.daviddev.j4cide.ui.component.FileExplorerTree;
+import com.daviddev.j4cide.ui.base.FileExplorerTree;
 
 /*TODO:REFATORAR DEPOIS*/
 public class DeleteAction extends GenericAction {

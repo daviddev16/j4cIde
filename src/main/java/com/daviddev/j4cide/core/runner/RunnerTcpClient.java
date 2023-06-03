@@ -38,7 +38,7 @@ public class RunnerTcpClient {
 	public void collectServerData() throws IOException {
 		while(!clientSocket.isClosed()) {
 			String received = read();
-			if (received.contains(CLOSE_SOCKET_MESSAGE) || received.isBlank()) {
+			if (received.contains(CLOSE_SOCKET_MESSAGE) || received.isEmpty()) {
 				closeQuietly();
 				break;
 			}
