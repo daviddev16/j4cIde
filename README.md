@@ -1,7 +1,7 @@
 # j4cIde
 C IDE made in Java
 
-Uma IDE simples que usa GCC para aulas de programação em C.
+Uma IDE simples que usa GCC para aulas de programação em C, fiz rapido para as aulas, espere um código horrível xD
 
 
 
