@@ -177,6 +177,10 @@ public final class ApplicationContextManager implements CoreFrontendAdapter, Cor
 	public String getCompilerPath() {
 		return devJson.getString("gcc.path");
 	}
+	
+	public String getLastProject() {
+		return devJson.getString("last.project");
+	}
 
 	@Override
 	public String getApplicationRunnerPath() {

@@ -170,10 +170,8 @@ void cinquentaesete_questao_vinteum() {}
 
 int main()
 {
-    printf("hello world");
-    int numb = 0;
-    scanf("%d", &numb);
-    //vintequartro_questao_um();
+    vintequartro_questao_um();
+    scanf("%d");
     //vintequartro_questao_dois();
     //vintequartro_questao_cinco();
     //vintecinco_questao_oito();

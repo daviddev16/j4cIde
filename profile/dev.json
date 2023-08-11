@@ -1,3 +1,5 @@
 {
-	"gcc.path": "C:\\Users\\David\\Desktop\\mingw64\\bin\\gcc.exe"
+	"gcc.path": "./profile/binaries/mingw64/bin/gcc.exe",
+	"j4cide.runner.path": "./CSharp.Runner/J4cIde.Runner/J4cIde.Runner/bin/Release/J4cIde.Runner.exe",
+	"last.project": "./profile/workspace/PROJETOS CCOMP 2023"
 }

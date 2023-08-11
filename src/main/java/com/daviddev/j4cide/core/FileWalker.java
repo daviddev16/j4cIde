@@ -12,7 +12,7 @@ public final class FileWalker {
 	public static void appendFile(StringBuilder stringBuilder, 
 			File rootFolder, boolean quote, String[] extensions) {
 		walk((walkedFile) -> {
-			String fileName = walkedFile.getName();
+			String fileName = walkedFile.getAbsolutePath();
 			String quotedFileName = (quote) ? IOUtil.quotePath(fileName) : fileName;
 			stringBuilder.append(' ').append(quotedFileName);
 		}, rootFolder, quote, extensions);

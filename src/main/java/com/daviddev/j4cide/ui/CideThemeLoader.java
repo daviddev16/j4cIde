@@ -6,7 +6,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 
-import com.formdev.flatlaf.FlatDarculaLaf;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.util.SystemInfo;
 
 public final class CideThemeLoader {
@@ -22,7 +22,7 @@ public final class CideThemeLoader {
 			JDialog.setDefaultLookAndFeelDecorated(true);
 		}
 	
-		FlatDarculaLaf.setup();
+		FlatMacDarkLaf.setup();
 		UIManager.put( "Button.arc", 2);
 		UIManager.put(UiApplication.GLOBAL_BG_KEY, UIManager.get("Panel.background"));
 		Toolkit.getDefaultToolkit().setDynamicLayout(true);

@@ -2,6 +2,7 @@ package com.daviddev.j4cide.ui;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 import com.daviddev.j4cide.ui.action.CreateAction;
 import com.daviddev.j4cide.ui.action.DeleteAction;
@@ -14,6 +15,7 @@ public class UiMenuBar extends JMenuBar {
 
 	private static final long serialVersionUID = 3277915417819999283L;
 
+	@SuppressWarnings("serial")
 	public UiMenuBar() {
 
 		JMenu mnFile = new JMenu("Arquivo");
@@ -26,6 +28,14 @@ public class UiMenuBar extends JMenuBar {
 		JMenu mnBuild = new JMenu("Construção");
 		mnBuild.add(ActionsHandler.actionOf(ExecuteAction.class));
 		add(mnBuild);
+		
+		JMenu mnInfo = new JMenu("Informações");
+		mnInfo.add(new JMenuItem("Esse projeto foi desenvolvido por daviddev16 (Github).") {{setEnabled(false);}});
+		mnInfo.add(new JMenuItem("Usando Compilador: mingw64"){{setEnabled(false);}});
+		mnInfo.add(new JMenuItem("Rodando em " + System.getProperty("java.version")){{setEnabled(false);}});
+		mnInfo.add(new JMenuItem("Versão: 1.0.0"){{setEnabled(false);}});
+		
+		add(mnInfo);
 		
 		/*JMenuItem mntmNew = new JMenuItem("Novo...");
 		mnFile.add(mntmNew);

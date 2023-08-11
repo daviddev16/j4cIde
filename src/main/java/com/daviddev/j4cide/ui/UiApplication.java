@@ -14,6 +14,8 @@ import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 import javax.swing.plaf.ColorUIResource;
 
+import com.daviddev.j4cide.api.ExpandableInterfaceFactory.InteractStateType;
+import com.daviddev.j4cide.api.ExpandableInterfaceFactory.InterfaceType;
 import com.daviddev.j4cide.core.ApplicationContextManager;
 import com.daviddev.j4cide.external.FlatSVGUtils;
 import com.daviddev.j4cide.model.CideStyle;
@@ -41,7 +43,7 @@ public class UiApplication extends JFrame {
 
 	private final UiToolBar toolBar = new UiToolBar();
 	private final UiMenuBar menuBar = new UiMenuBar();
-	private final UiCodeScene codeScene = new UiCodeScene(".//profile//workspace//Soma_001");
+	private final UiCodeScene codeScene = new UiCodeScene(ApplicationContextManager.getContextManager().getLastProject());
 
 	private UiApplication() throws IOException {
 		setTitle("j4CIde");
@@ -89,6 +91,10 @@ public class UiApplication extends JFrame {
 			applicationWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 			applicationWindow.setLocationRelativeTo(null);
 			applicationWindow.setVisible(true);
+			
+			/* não quero que na inicialização apareça o inspetor */
+			ApplicationContextManager.getContextManager().changeState(InteractStateType.CLOSE, InterfaceType.INSPECTOR);
+			
 		}
 	}
 

@@ -8,7 +8,7 @@ namespace J4cIde.Runner
         {
             WindowUtility.MoveWindowToCenter();
             J4cIdeRunnerServer runnerServer = new J4cIdeRunnerServer();
-            runnerServer.StartTcpLinkServer();
+            runnerServer.StartTCPChannel();
         }
     }
 }

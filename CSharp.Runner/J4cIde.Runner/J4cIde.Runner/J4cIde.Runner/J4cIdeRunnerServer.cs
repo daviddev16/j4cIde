@@ -5,11 +5,59 @@ using System.Text;
 using System.IO;
 using System.Diagnostics;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace J4cIde.Runner
 {
     public class J4cIdeRunnerServer
     {
+
+        abstract class CommandProcessor
+        {
+
+            public string Alias
+            {
+                get { return alias; }
+                set { alias = value; }
+            }
+
+            private string alias;
+            protected CommandProcessor(string alias)
+            {
+                Alias = alias;
+            }
+
+            public abstract void ProccessRequest(TcpListener tcpListener, ref Process process);
+
+        }
+
+        sealed class CloseSignalCmdProcessor : CommandProcessor
+        {
+
+            CloseSignalCmdProcessor() : base("CLOSE_SIGNAL") { }
+
+            public override void ProccessRequest(TcpListener tcpListener, ref Process process)
+            {
+                if (process.HasExited)
+                    return;
+
+            }
+
+        }
+
+        sealed class StartApplicationCmdProcessor : CommandProcessor
+        {
+
+            StartApplicationCmdProcessor() : base("START_APLICATION") { }
+
+            public override void ProccessRequest(TcpListener tcpListener, ref Process process)
+            {
+
+            }
+
+        }
+
+        private static Dictionary<string, CommandProcessor> CommandProcessors = new Dictionary<string, CommandProcessor>();
 
         private static readonly IPAddress INET_ADDRESS = IPAddress.Any;
         private static readonly int BUFFER_MAX_SIZE = 1024*4;
@@ -18,6 +66,8 @@ namespace J4cIde.Runner
         private Stopwatch stopWatch = new Stopwatch();
         private TcpListener Listener;
 
+        private Process currentProcess;
+
         public J4cIdeRunnerServer() : this(INET_ADDRESS, DEFAULT_PORT) { }
 
         public J4cIdeRunnerServer(IPAddress address, int port)
@@ -25,7 +75,7 @@ namespace J4cIde.Runner
             Listener = new TcpListener(address, port);
         }
 
-        public void StartTcpLinkServer()
+        public void StartTCPChannel()
         {
             /* começando socket tcp */
             Listener.Start();
@@ -58,10 +108,10 @@ namespace J4cIde.Runner
             StartInfo.Verb = "runas";
             StartInfo.Arguments = "/c " + command;
             stopWatch.Start();
-            Process process = Process.Start(StartInfo);
+            currentProcess = Process.Start(StartInfo);
             stopWatch.Stop();
-            process.EnableRaisingEvents = true;
-            process.WaitForExit();
+            currentProcess.EnableRaisingEvents = true;
+            currentProcess.WaitForExit();
             SendToClient(ref stream, string.Format("A aplicação encerrou com o código {0}.", process.ExitCode));
         }
 

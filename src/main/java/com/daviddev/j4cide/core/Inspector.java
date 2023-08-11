@@ -9,7 +9,8 @@ import java.io.InputStreamReader;
 public final class Inspector {
 
 	public static void sendInspection(ApplicationContextManager contextManager) {
-		if (!contextManager.getInspectionUI().isVisible())
+		
+		/*if (!contextManager.getInspectionUI().isVisible())
 			return;
 		new Thread(new Runnable() {
 			@Override
@@ -25,7 +26,7 @@ public final class Inspector {
 					e.printStackTrace();
 				}
 			}
-		}).start();
+		}).start();*/
 	}
 
 	public static String createFilesArgument(File sourceFolder) {

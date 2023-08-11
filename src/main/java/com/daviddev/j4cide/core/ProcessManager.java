@@ -12,11 +12,13 @@ public final class ProcessManager {
 	public static Process createCompilerProcess(File sourceFolder, String compilerPath, String extraArgument, 
 			File buildFile, String filesArgument) throws IOException {
 
+		File compilerFile = new File(compilerPath);
 		ProcessBuilder processBuilder = new ProcessBuilder();
-		processBuilder.directory(sourceFolder);
+		processBuilder.directory(compilerFile.getParentFile()
+				.getCanonicalFile());
 		processBuilder.redirectErrorStream(true);
 		List<String> commands = new ArrayList<>();
-		commands.add(IOUtil.quotePath(compilerPath));
+		commands.add(compilerFile.getCanonicalPath());
 		if (buildFile != null) {
 			commands.add("-o");
 			commands.add(IOUtil.quotePath(buildFile.getCanonicalPath()));
@@ -24,9 +26,11 @@ public final class ProcessManager {
 		if (extraArgument != null && !extraArgument.isEmpty()) {
 			commands.add(extraArgument);
 		}
+		//commands.add("-c");
 		commands.add(filesArgument);		
 		processBuilder.command(commands);
-
+		commands.forEach(s -> System.out.print(s + " "));
+		
 		Process process = processBuilder.start();
 		return process;
 	}

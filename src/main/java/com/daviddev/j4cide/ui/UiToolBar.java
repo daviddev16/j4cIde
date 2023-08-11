@@ -14,6 +14,7 @@ import com.daviddev.j4cide.ui.action.ExportAction;
 import com.daviddev.j4cide.ui.action.KillAction;
 import com.daviddev.j4cide.ui.action.OpenConsoleAction;
 import com.daviddev.j4cide.ui.action.OpenExplorerAction;
+import com.daviddev.j4cide.ui.action.OpenInspectorAction;
 import com.daviddev.j4cide.ui.action.SaveAction;
 import com.daviddev.j4cide.ui.action.StopAction;
 import com.daviddev.j4cide.ui.base.UiButton;
@@ -48,7 +49,7 @@ public class UiToolBar extends JToolBar {
 		createButton(IconMapper.CONFIG_ICON, OpenConfigAction.class);
 		createButton(IconMapper.LOG_ICON, OpenConsoleAction.class);
 		createButton(IconMapper.EXPLORER_ICON, OpenExplorerAction.class);
-		createButton(IconMapper.INSPECTION_ICON, OpenExplorerAction.class);
+		createButton(IconMapper.INSPECTION_ICON, OpenInspectorAction.class);
 
 	}
 	

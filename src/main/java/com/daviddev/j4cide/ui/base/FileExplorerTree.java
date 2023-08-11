@@ -42,6 +42,7 @@ public class FileExplorerTree extends JTree implements TreeCellRenderer {
 		getModel().setRoot(factory.createDefaultTreeNode(projectFile, true));
 		walkThrough(projectFile, getRootNode());
 		setModel(model);	
+		
 	}
 
 	public void walkThrough(File file, DefaultMutableTreeNode root) {

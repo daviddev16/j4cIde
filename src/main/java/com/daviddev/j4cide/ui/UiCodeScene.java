@@ -57,7 +57,7 @@ public class UiCodeScene extends JPanel {
 		editorDividerPane.setLeftComponent(fileExplorerPane);
 		editorDividerPane.setRightComponent(inspectionDividerPane);
 		editorDividerPane.setContinuousLayout(true);
-		editorDividerPane.setDividerLocation(0.5);
+		editorDividerPane.setDividerLocation(300);
 	}
 	
 	private void initializeConsoleDividerPane() {

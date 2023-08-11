@@ -47,7 +47,7 @@ public class FileExplorerPane extends HeaderPanel implements CodeSceneChild, Int
 		getContentPanel().add(scrollPane, BorderLayout.CENTER);
 		
 		explorerTree = new FileExplorerTree(this, new File(getCodeScene().getProjectFolder()));
-		
+		explorerTree.putClientProperty("Tree.rowHeight", 60);
 		explorerTree.addMouseListener(new MouseAdapter() {
 	        
 	    });
